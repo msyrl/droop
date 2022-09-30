@@ -30,10 +30,6 @@
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </x-nav-item>
-                @canany([\App\Enums\PermissionEnum::view_users()->value,
-                    \App\Enums\PermissionEnum::view_roles()->value])
-                    <li class="nav-header">{{ __('Security') }}</li>
-                @endcanany
                 @can(\App\Enums\PermissionEnum::view_users()->value)
                     <x-nav-item
                         :href="url('/users')"
