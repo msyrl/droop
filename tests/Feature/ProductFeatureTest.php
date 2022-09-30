@@ -6,6 +6,7 @@ use App\Enums\PermissionEnum;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Builders\UserBuilder;
 use Tests\TestCase;
 
 class ProductFeatureTest extends TestCase
@@ -19,13 +20,10 @@ class ProductFeatureTest extends TestCase
      */
     public function shouldShowProductListPage(): void
     {
-        /** @var Permission */
-        $permission = Permission::query()
-            ->where('name', PermissionEnum::view_products())
-            ->first();
         /** @var User */
-        $user = User::factory()->create();
-        $user->givePermissionTo($permission);
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::view_products())
+            ->build();
         $response = $this->actingAs($user)->get('/products');
 
         $response->assertOk();
