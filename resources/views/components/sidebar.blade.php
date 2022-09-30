@@ -30,6 +30,27 @@
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </x-nav-item>
+                <x-nav-item
+                    :href="url('/orders')"
+                    activeHref="orders"
+                >
+                    <i class="nav-icon fas fa-dollar-sign"></i>
+                    <p>{{ __('Orders') }}</p>
+                </x-nav-item>
+                <x-nav-item
+                    :href="url('/products')"
+                    activeHref="products"
+                >
+                    <i class="nav-icon fas fa-box"></i>
+                    <p>{{ __('Products') }}</p>
+                </x-nav-item>
+                <x-nav-item
+                    :href="url('/customers')"
+                    activeHref="customers"
+                >
+                    <i class="nav-icon fas fa-user-tag"></i>
+                    <p>{{ __('Customers') }}</p>
+                </x-nav-item>
                 @can(\App\Enums\PermissionEnum::view_users()->value)
                     <x-nav-item
                         :href="url('/users')"
