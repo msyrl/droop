@@ -15,7 +15,7 @@
                     <h1 class="m-0">{{ __('Products') }}</h1>
                 </div><!-- /.col -->
                 <div class="col-auto">
-                    @can(\App\Enums\PermissionEnum::create_product()->value)
+                    @can(\App\Enums\PermissionEnum::manage_products()->value)
                         <a
                             href="{{ url('/products/create') }}"
                             class="btn btn-primary"
@@ -148,13 +148,13 @@
                                             <td class="align-middle">{{ $product->created_at }}</td>
                                             <td class="align-middle">
                                                 <div class="btn-group btn-group-sm">
-                                                    @can(\App\Enums\PermissionEnum::view_products()->value)
+                                                    @can(\App\Enums\PermissionEnum::manage_products()->value)
                                                         <a
                                                             href="{{ url('/products/' . $product->id) }}"
                                                             class="btn btn-default"
                                                         >{{ __('Detail') }}</a>
                                                     @endcan
-                                                    @can(\App\Enums\PermissionEnum::delete_product()->value)
+                                                    @can(\App\Enums\PermissionEnum::manage_products()->value)
                                                         <button
                                                             type="button"
                                                             class="btn btn-danger"
