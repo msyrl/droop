@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Builders\PaginatorBuilder;
 use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -83,13 +84,18 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param ProductUpdateRequest $request
+     * @param \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        //
+        $product->update($request->validated());
+
+        return Response::redirectTo('/products/' . $product->id)
+            ->with('success', __('crud.updated', [
+                'resource' => 'product',
+            ]));
     }
 
     /**

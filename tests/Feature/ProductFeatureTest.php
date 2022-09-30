@@ -139,4 +139,34 @@ class ProductFeatureTest extends TestCase
             $product->description,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessUpdateProduct(): void
+    {
+        /** @var Product */
+        $product = Product::factory()->create();
+
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::manage_products())
+            ->build();
+        $response = $this->actingAs($user)->put('/products/' . $product->id, [
+            'name' => 'Product #1',
+            'sku' => 'SKU123',
+            'price' => 10000,
+            'description' => 'Lorem ipsum dolor sit amet',
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'name' => 'Product #1',
+            'sku' => 'SKU123',
+            'price' => 10000,
+            'description' => 'Lorem ipsum dolor sit amet',
+        ]);
+    }
 }
