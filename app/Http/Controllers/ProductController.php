@@ -46,7 +46,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return Response::view('product.create');
     }
 
     /**

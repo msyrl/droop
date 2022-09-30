@@ -50,4 +50,37 @@ class ProductFeatureTest extends TestCase
             $product->formatted_price,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldShowProductCreatePage(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::manage_products())
+            ->build();
+        $response = $this->actingAs($user)->get('/products/create');
+
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldContainProductInputOnProductCreatePage(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::manage_products())
+            ->build();
+        $response = $this->actingAs($user)->get('/products/create');
+
+        $response->assertSee([
+            'name="name"',
+            'name="sku"',
+            'name="price"',
+            'name="description"',
+        ], false);
+    }
 }
