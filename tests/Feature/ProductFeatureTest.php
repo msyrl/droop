@@ -83,4 +83,60 @@ class ProductFeatureTest extends TestCase
             'name="description"',
         ], false);
     }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessCreateProduct(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::manage_products())
+            ->build();
+        $response = $this->actingAs($user)->post('/products', [
+            'name' => 'Product #1',
+            'sku' => 'SKU123',
+            'price' => 10000,
+            'description' => 'Lorem ipsum dolor sit amet',
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('products', [
+            'name' => 'Product #1',
+            'sku' => 'SKU123',
+            'price' => 10000,
+            'description' => 'Lorem ipsum dolor sit amet',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldContainProductInputOnProductShowPage(): void
+    {
+        /** @var Product */
+        $product = Product::factory()->create();
+
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::manage_products())
+            ->build();
+        $response = $this->actingAs($user)->get('/products/' . $product->id);
+
+        $response->assertSee([
+            'value="PUT"',
+            'name="name"',
+            'name="sku"',
+            'name="price"',
+            'name="description"',
+        ], false);
+
+        $response->assertSee([
+            $product->name,
+            $product->sky,
+            $product->price,
+            $product->description,
+        ]);
+    }
 }

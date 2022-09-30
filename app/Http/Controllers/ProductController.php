@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Builders\PaginatorBuilder;
+use App\Http\Requests\ProductStoreRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -52,12 +53,18 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param ProductStoreRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        //
+        /** @var Product */
+        $product = Product::create($request->validated());
+
+        return Response::redirectTo('/products/' . $product->id)
+            ->with('success', __('crud.created', [
+                'resource' => 'product',
+            ]));
     }
 
     /**
@@ -68,18 +75,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
+        return Response::view('product.show', [
+            'product' => $product,
+        ]);
     }
 
     /**
