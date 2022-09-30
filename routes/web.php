@@ -47,4 +47,5 @@ Route::group([
     Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])->can(\App\Enums\PermissionEnum::manage_products());
     Route::get('/products/{product}', [\App\Http\Controllers\ProductController::class, 'show'])->can(\App\Enums\PermissionEnum::manage_products());
     Route::put('/products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->can(\App\Enums\PermissionEnum::manage_products());
+    Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->can(\App\Enums\PermissionEnum::manage_products());
 });

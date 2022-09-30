@@ -106,6 +106,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return Response::redirectTo('/products')
+            ->with('success', __('crud.deleted', [
+                'resource' => 'product',
+            ]));
     }
 }

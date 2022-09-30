@@ -169,4 +169,25 @@ class ProductFeatureTest extends TestCase
             'description' => 'Lorem ipsum dolor sit amet',
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessDeleteProduct(): void
+    {
+        /** @var Product */
+        $product = Product::factory()->create();
+
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::manage_products())
+            ->build();
+        $response = $this->actingAs($user)->delete('/products/' . $product->id);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseMissing('products', [
+            'id' => $product->id,
+        ]);
+    }
 }
