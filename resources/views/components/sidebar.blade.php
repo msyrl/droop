@@ -31,11 +31,11 @@
                     <p>Dashboard</p>
                 </x-nav-item>
                 <x-nav-item
-                    :href="url('/orders')"
-                    activeHref="orders"
+                    :href="url('/sales-orders')"
+                    activeHref="sales-orders"
                 >
                     <i class="nav-icon fas fa-dollar-sign"></i>
-                    <p>{{ __('Orders') }}</p>
+                    <p>{{ __('Sales orders') }}</p>
                 </x-nav-item>
                 <x-nav-item
                     :href="url('/products')"
