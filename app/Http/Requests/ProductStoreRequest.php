@@ -41,6 +41,18 @@ class ProductStoreRequest extends FormRequest
                 'nullable',
                 'string',
             ],
+            'image' => [
+                'nullable',
+                'image',
+            ],
+            'gallery' => [
+                'nullable',
+                'array',
+            ],
+            'gallery.*' => [
+                'nullable',
+                'image',
+            ],
         ];
     }
 }

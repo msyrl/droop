@@ -41,6 +41,26 @@ class ProductUpdateRequest extends FormRequest
                 'nullable',
                 'string',
             ],
+            'image' => [
+                'nullable',
+                'image',
+            ],
+            'gallery' => [
+                'nullable',
+                'array',
+            ],
+            'gallery.*' => [
+                'nullable',
+                'image',
+            ],
+            'deleted_image_ids' => [
+                'nullable',
+                'array',
+            ],
+            'deleted_image_ids.*' => [
+                'nullable',
+                'string',
+            ],
         ];
     }
 }

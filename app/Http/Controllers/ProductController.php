@@ -7,6 +7,7 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
@@ -60,7 +61,31 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         /** @var Product */
-        $product = Product::create($request->validated());
+        $product = DB::transaction(function () use ($request) {
+            /** @var Product */
+            $product = Product::create(
+                $request->only([
+                    'name',
+                    'sku',
+                    'price',
+                    'description',
+                ])
+            );
+
+            if ($request->hasFile('featured_image')) {
+                $product->setFeaturedImage(
+                    $request->file('featured_image')
+                );
+            }
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $product->setImage($image);
+                }
+            }
+
+            return $product;
+        });
 
         return Response::redirectTo('/products/' . $product->id)
             ->with('success', __('crud.created', [
@@ -90,7 +115,35 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        DB::transaction(function () use ($request, $product) {
+            $product->update(
+                $request->only([
+                    'name',
+                    'sku',
+                    'price',
+                    'description',
+                ])
+            );
+
+            if ($request->hasFile('featured_image')) {
+                $product->clearFeaturedImage();
+                $product->setFeaturedImage(
+                    $request->file('featured_image')
+                );
+            }
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $product->setImage($image);
+                }
+            }
+
+            if ($request->filled('deleted_image_ids')) {
+                $product->clearImages(
+                    $request->get('deleted_image_ids')
+                );
+            }
+        });
 
         return Response::redirectTo('/products/' . $product->id)
             ->with('success', __('crud.updated', [
