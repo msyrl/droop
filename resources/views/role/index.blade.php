@@ -14,7 +14,7 @@
                 <div class="col-auto">
                     <h1 class="m-0">{{ __('Roles') }}</h1>
                 </div><!-- /.col -->
-                @can(\App\Enums\PermissionEnum::create_role()->value)
+                @can(\App\Enums\PermissionEnum::manage_roles()->value)
                     <div class="col-auto">
                         <a
                             href="{{ url('/roles/create') }}"
@@ -74,13 +74,13 @@
                                             <td class="align-middle">{{ $role->created_at }}</td>
                                             <td class="align-middle">
                                                 <div class="btn-group btn-group-sm">
-                                                    @can(\App\Enums\PermissionEnum::view_roles()->value)
+                                                    @can(\App\Enums\PermissionEnum::manage_roles()->value)
                                                         <a
                                                             href="{{ url('/roles/' . $role->id) }}"
                                                             class="btn btn-default"
                                                         >{{ __('Detail') }}</a>
                                                     @endcan
-                                                    @can(\App\Enums\PermissionEnum::delete_role()->value)
+                                                    @can(\App\Enums\PermissionEnum::manage_roles()->value)
                                                         <button
                                                             type="button"
                                                             class="btn btn-danger"

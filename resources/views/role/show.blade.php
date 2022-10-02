@@ -35,15 +35,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    @can(\App\Enums\PermissionEnum::update_role()->value)
-                        <form
-                            action="{{ url('/roles/' . $role->id) }}"
-                            method="POST"
-                            novalidate
-                        >
-                            @csrf
-                            @method('PUT')
-                        @endcan
+                    <form
+                        action="{{ url('/roles/' . $role->id) }}"
+                        method="POST"
+                        novalidate
+                    >
+                        @csrf
+                        @method('PUT')
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-group">
@@ -86,39 +84,7 @@
                                         @endforeach
                                     </div>
                                     <div class="col">
-                                        @foreach ($createPermissions as $permission)
-                                            <div class="icheck-primary">
-                                                <input
-                                                    type="checkbox"
-                                                    id="permission_{{ $permission->id }}"
-                                                    name="permissions[]"
-                                                    value="{{ $permission->id }}"
-                                                    @if ($role->permissions->contains('id', $permission->id)) checked @endif
-                                                />
-                                                <label for="permission_{{ $permission->id }}">
-                                                    {{ $permission->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="col">
-                                        @foreach ($updatePermissions as $permission)
-                                            <div class="icheck-primary">
-                                                <input
-                                                    type="checkbox"
-                                                    id="permission_{{ $permission->id }}"
-                                                    name="permissions[]"
-                                                    value="{{ $permission->id }}"
-                                                    @if ($role->permissions->contains('id', $permission->id)) checked @endif
-                                                />
-                                                <label for="permission_{{ $permission->id }}">
-                                                    {{ $permission->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="col">
-                                        @foreach ($deletePermissions as $permission)
+                                        @foreach ($managePermissions as $permission)
                                             <div class="icheck-primary">
                                                 <input
                                                     type="checkbox"
@@ -136,13 +102,11 @@
                                 </div>
                             </div>
                         </div>
-                        @can(\App\Enums\PermissionEnum::update_role()->value)
-                            <button
-                                type="submit"
-                                class="btn btn-primary"
-                            >{{ __('Save') }}</button>
-                        </form>
-                    @endcan
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >{{ __('Save') }}</button>
+                    </form>
                 </div>
             </div>
         </div>

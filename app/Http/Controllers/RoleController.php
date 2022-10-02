@@ -42,26 +42,14 @@ class RoleController extends Controller
             ->orderBy('name')
             ->get();
 
-        $createPermissions = Permission::query()
-            ->where('name', 'LIKE', 'create_%')
-            ->orderBy('name')
-            ->get();
-
-        $updatePermissions =  Permission::query()
-            ->where('name', 'LIKE', 'update_%')
-            ->orderBy('name')
-            ->get();
-
-        $deletePermissions =  Permission::query()
-            ->where('name', 'LIKE', 'delete_%')
+        $managePermissions = Permission::query()
+            ->where('name', 'LIKE', 'manage_%')
             ->orderBy('name')
             ->get();
 
         return Response::view('role.create', [
             'viewPermissions' => $viewPermissions,
-            'createPermissions' => $createPermissions,
-            'updatePermissions' => $updatePermissions,
-            'deletePermissions' => $deletePermissions,
+            'managePermissions' => $managePermissions,
         ]);
     }
 
@@ -99,26 +87,14 @@ class RoleController extends Controller
             ->orderBy('name')
             ->get();
 
-        $createPermissions = Permission::query()
-            ->where('name', 'LIKE', 'create_%')
-            ->orderBy('name')
-            ->get();
-
-        $updatePermissions =  Permission::query()
-            ->where('name', 'LIKE', 'update_%')
-            ->orderBy('name')
-            ->get();
-
-        $deletePermissions =  Permission::query()
-            ->where('name', 'LIKE', 'delete_%')
+        $managePermissions = Permission::query()
+            ->where('name', 'LIKE', 'manage_%')
             ->orderBy('name')
             ->get();
 
         return Response::view('role.show', [
             'viewPermissions' => $viewPermissions,
-            'createPermissions' => $createPermissions,
-            'updatePermissions' => $updatePermissions,
-            'deletePermissions' => $deletePermissions,
+            'managePermissions' => $managePermissions,
             'role' => $role,
         ]);
     }

@@ -82,37 +82,7 @@
                                         @endforeach
                                     </div>
                                     <div class="col">
-                                        @foreach ($createPermissions as $permission)
-                                            <div class="icheck-primary">
-                                                <input
-                                                    type="checkbox"
-                                                    id="permission_{{ $permission->id }}"
-                                                    name="permissions[]"
-                                                    value="{{ $permission->id }}"
-                                                />
-                                                <label for="permission_{{ $permission->id }}">
-                                                    {{ $permission->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="col">
-                                        @foreach ($updatePermissions as $permission)
-                                            <div class="icheck-primary">
-                                                <input
-                                                    type="checkbox"
-                                                    id="permission_{{ $permission->id }}"
-                                                    name="permissions[]"
-                                                    value="{{ $permission->id }}"
-                                                />
-                                                <label for="permission_{{ $permission->id }}">
-                                                    {{ $permission->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="col">
-                                        @foreach ($deletePermissions as $permission)
+                                        @foreach ($managePermissions as $permission)
                                             <div class="icheck-primary">
                                                 <input
                                                     type="checkbox"

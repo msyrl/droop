@@ -35,15 +35,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    @can(\App\Enums\PermissionEnum::update_user()->value)
-                        <form
-                            action="{{ url('/users/' . $user->id) }}"
-                            method="POST"
-                            novalidate
-                        >
-                            @csrf
-                            @method('PUT')
-                        @endcan
+                    <form
+                        action="{{ url('/users/' . $user->id) }}"
+                        method="POST"
+                        novalidate
+                    >
+                        @csrf
+                        @method('PUT')
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-group">
@@ -122,13 +120,11 @@
                                 @endforeach
                             </div>
                         </div>
-                        @can(\App\Enums\PermissionEnum::update_user()->value)
-                            <button
-                                type="submit"
-                                class="btn btn-primary"
-                            >{{ __('Save') }}</button>
-                        </form>
-                    @endcan
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >{{ __('Save') }}</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@
                 <div class="col-auto">
                     <h1 class="m-0">{{ __('Users') }}</h1>
                 </div><!-- /.col -->
-                @can(\App\Enums\PermissionEnum::create_user()->value)
+                @can(\App\Enums\PermissionEnum::manage_users()->value)
                     <div class="col-auto">
                         <a
                             href="{{ url('/users/create') }}"
@@ -132,13 +132,13 @@
                                             <td class="align-middle">{{ $user->created_at }}</td>
                                             <td class="align-middle">
                                                 <div class="btn-group btn-group-sm">
-                                                    @can(\App\Enums\PermissionEnum::view_users()->value)
+                                                    @can(\App\Enums\PermissionEnum::manage_users()->value)
                                                         <a
                                                             href="{{ url('/users/' . $user->id) }}"
                                                             class="btn btn-default"
                                                         >{{ __('Detail') }}</a>
                                                     @endcan
-                                                    @can(\App\Enums\PermissionEnum::delete_user()->value)
+                                                    @can(\App\Enums\PermissionEnum::manage_users()->value)
                                                         <button
                                                             type="button"
                                                             class="btn btn-danger"
