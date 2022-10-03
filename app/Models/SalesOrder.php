@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class SalesOrder extends Model
+class SalesOrder extends Model implements HasMedia
 {
     use HasFactory;
     use HasUuid;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'user_id',
@@ -26,6 +30,11 @@ class SalesOrder extends Model
     protected $casts = [
         'status' => SalesOrderStatusEnum::class,
     ];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('attachment');
+    }
 
     public function user(): BelongsTo
     {
@@ -55,5 +64,28 @@ class SalesOrder extends Model
     public function getFormattedTotalPriceAttribute(): string
     {
         return number_format($this->total_price);
+    }
+
+    public function getFormattedHasAttachmentAttribute(): string
+    {
+        return $this->hasAttachment() ? __('YES') : __('NO');
+    }
+
+    public function getAttachmentUrlAttribute(): string
+    {
+        return $this->getFirstMediaUrl('attachment');
+    }
+
+    public function setAttachment(UploadedFile $uploadedFile): void
+    {
+        $this->clearMediaCollection('attachment');
+        $this
+            ->addMedia($uploadedFile)
+            ->toMediaCollection('attachment');
+    }
+
+    public function hasAttachment(): bool
+    {
+        return boolval($this->getFirstMedia('attachment'));
     }
 }
