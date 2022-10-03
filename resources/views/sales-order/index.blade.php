@@ -135,7 +135,7 @@
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Date created') }}</th>
                                         <th>{{ __('Status') }}</th>
-                                        <th>{{ __('Paid') }}</th>
+                                        <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Quantity') }}</th>
                                         <th>{{ __('Total price') }}</th>
                                     </tr>
@@ -149,8 +149,8 @@
                                             <td class="align-middle">{{ $salesOrder->created_at }}</td>
                                             <td class="align-middle">{{ $salesOrder->formatted_status }}</td>
                                             <td class="align-middle">{{ $salesOrder->formatted_paid }}</td>
-                                            <td class="align-middle">{{ $salesOrder->quantity }}</td>
-                                            <td class="align-middle">{{ $salesOrder->total_price }}</td>
+                                            <td class="align-middle">{{ $salesOrder->formatted_quantity }}</td>
+                                            <td class="align-middle">{{ $salesOrder->formatted_total_price }}</td>
                                         </tr>
                                     @empty
                                         <tr>

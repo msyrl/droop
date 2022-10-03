@@ -123,9 +123,10 @@ Table sales_order_line_items {
     id varchar [not null, pk] // uuid
     created_at timestamp [not null, default: `now()`]
     updated_at timestamp [not null, default: `now() ON UPDATE now()`]
+    sales_order_id varchar [not null, ref: > sales_orders.id]
     product_id varchar [not null]
     name varchar [not null]
-    sku varchar [not null]
+    sku varchar [null]
     price bigint [not null, unsigned]
     quantity bigint [not null, unsigned]
     total_price bigint [not null, unsigned]

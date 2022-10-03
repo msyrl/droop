@@ -47,7 +47,7 @@ class SalesOrderController extends Controller
      */
     public function show(SalesOrder $salesOrder)
     {
-        $salesOrder->load(['user']);
+        $salesOrder->load(['user', 'lineItems.product']);
 
         return Response::view('sales-order.show', [
             'salesOrder' => $salesOrder,

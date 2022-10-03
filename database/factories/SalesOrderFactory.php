@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\SalesOrderStatusEnum;
+use App\Models\SalesOrder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SalesOrderFactory extends Factory
@@ -19,5 +20,14 @@ class SalesOrderFactory extends Factory
             'paid' => $this->faker->boolean(),
             'name' => '#' . $this->faker->randomNumber(6, true),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (SalesOrder $salesOrder) {
+            $salesOrder->quantity = $salesOrder->lineItems()->sum('quantity');
+            $salesOrder->total_price = $salesOrder->lineItems()->sum('total_price');
+            $salesOrder->save();
+        });
     }
 }

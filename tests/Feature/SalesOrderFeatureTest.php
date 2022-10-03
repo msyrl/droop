@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Enums\PermissionEnum;
+use App\Models\Product;
 use App\Models\SalesOrder;
+use App\Models\SalesOrderLineItem;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Builders\UserBuilder;
@@ -47,9 +49,10 @@ class SalesOrderFeatureTest extends TestCase
 
         $response->assertSee([
             $salesOrder->name,
-            $salesOrder->status,
-            $salesOrder->quantity,
-            $salesOrder->total_price,
+            $salesOrder->formatted_status,
+            $salesOrder->formatted_paid,
+            $salesOrder->formatted_quantity,
+            $salesOrder->formatted_total_price,
         ]);
     }
 
@@ -58,12 +61,10 @@ class SalesOrderFeatureTest extends TestCase
      */
     public function shouldContainSalesOrdersOnSalesOrderShowPage(): void
     {
-        /** @var User */
-        $salesOrderUser = User::factory();
-
         /** @var SalesOrder */
         $salesOrder = SalesOrder::factory()
-            ->for($salesOrderUser)
+            ->for(User::factory())
+            ->has(SalesOrderLineItem::factory(), 'lineItems')
             ->create();
 
         /** @var User */
@@ -74,11 +75,16 @@ class SalesOrderFeatureTest extends TestCase
 
         $response->assertSee([
             $salesOrder->name,
-            $salesOrder->status,
-            $salesOrder->quantity,
-            $salesOrder->total_price,
-            $salesOrderUser->name,
-            $salesOrderUser->email,
+            $salesOrder->formatted_status,
+            $salesOrder->formatted_paid,
+            $salesOrder->formatted_quantity,
+            $salesOrder->formatted_total_price,
+            $salesOrder->user->name,
+            $salesOrder->user->email,
+            $salesOrder->lineItems[0]->name,
+            $salesOrder->lineItems[0]->formatted_price,
+            $salesOrder->lineItems[0]->formatted_quantity,
+            $salesOrder->lineItems[0]->formatted_total_price,
         ]);
     }
 }
