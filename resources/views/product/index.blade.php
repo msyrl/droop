@@ -14,8 +14,8 @@
                 <div class="col-auto">
                     <h1 class="m-0">{{ __('Products') }}</h1>
                 </div><!-- /.col -->
-                <div class="col-auto">
-                    @can(\App\Enums\PermissionEnum::manage_products()->value)
+                @can(\App\Enums\PermissionEnum::manage_products()->value)
+                    <div class="col-auto">
                         <a
                             href="{{ url('/products/create') }}"
                             class="btn btn-primary"
