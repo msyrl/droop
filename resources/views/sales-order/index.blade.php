@@ -14,14 +14,6 @@
                 <div class="col-auto">
                     <h1 class="m-0">{{ __('Sales order') }}</h1>
                 </div><!-- /.col -->
-                <div class="col-auto">
-                    @can(\App\Enums\PermissionEnum::manage_sales_orders()->value)
-                        <a
-                            href="{{ url('/sales-orders/create') }}"
-                            class="btn btn-primary"
-                        >{{ __('Create sales order') }}</a>
-                    </div><!-- /.col -->
-                @endcan
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -144,7 +136,8 @@
                                     @forelse ($salesOrders as $salesOrder)
                                         <tr>
                                             <td class="align-middle">
-                                                <a href="{{ url('/sales-orders/' . $salesOrder->id) }}">{{ $salesOrder->name }}</a>
+                                                <a
+                                                    href="{{ url('/sales-orders/' . $salesOrder->id) }}">{{ $salesOrder->name }}</a>
                                             </td>
                                             <td class="align-middle">{{ $salesOrder->created_at }}</td>
                                             <td class="align-middle">{{ $salesOrder->formatted_status }}</td>
