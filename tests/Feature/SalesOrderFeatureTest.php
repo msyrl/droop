@@ -15,8 +15,6 @@ class SalesOrderFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $seed = true;
-
     /**
      * @test
      */

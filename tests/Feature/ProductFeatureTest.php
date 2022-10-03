@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Enums\PermissionEnum;
-use App\Models\Permission;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,8 +12,6 @@ use Tests\TestCase;
 class ProductFeatureTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
 
     /**
      * @test
