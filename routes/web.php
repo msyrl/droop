@@ -51,4 +51,6 @@ Route::group([
 
     Route::get('/sales-orders', [\App\Http\Controllers\SalesOrderController::class, 'index'])->can(\App\Enums\PermissionEnum::view_sales_orders());
     Route::get('/sales-orders/{salesOrder}', [\App\Http\Controllers\SalesOrderController::class, 'show'])->can(\App\Enums\PermissionEnum::view_sales_orders());
+
+    Route::get('/catalogs', [\App\Http\Controllers\CatalogController::class, 'index']);
 });
