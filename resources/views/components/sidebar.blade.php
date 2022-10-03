@@ -30,27 +30,28 @@
                     <i class="nav-icon fas fa-home"></i>
                     <p>{{ __('Home') }}</p>
                 </x-nav-item>
-                <x-nav-item
-                    :href="url('/sales-orders')"
-                    activeHref="sales-orders"
-                >
-                    <i class="nav-icon fas fa-dollar-sign"></i>
-                    <p>{{ __('Sales orders') }}</p>
-                </x-nav-item>
-                <x-nav-item
-                    :href="url('/products')"
-                    activeHref="products"
-                >
-                    <i class="nav-icon fas fa-box"></i>
-                    <p>{{ __('Products') }}</p>
-                </x-nav-item>
-                <x-nav-item
-                    :href="url('/customers')"
-                    activeHref="customers"
-                >
-                    <i class="nav-icon fas fa-user-tag"></i>
-                    <p>{{ __('Customers') }}</p>
-                </x-nav-item>
+                @canany([\App\Enums\PermissionEnum::view_roles()->value, \App\Enums\PermissionEnum::view_users()->value,
+                    \App\Enums\PermissionEnum::view_sales_orders()->value])
+                @endcanany
+                <li class="nav-header">{{ __('Admin side') }}</li>
+                @can(\App\Enums\PermissionEnum::view_sales_orders()->value)
+                    <x-nav-item
+                        :href="url('/sales-orders')"
+                        activeHref="sales-orders"
+                    >
+                        <i class="nav-icon fas fa-dollar-sign"></i>
+                        <p>{{ __('Sales orders') }}</p>
+                    </x-nav-item>
+                @endcan
+                @can(\App\Enums\PermissionEnum::view_products()->value)
+                    <x-nav-item
+                        :href="url('/products')"
+                        activeHref="products"
+                    >
+                        <i class="nav-icon fas fa-box"></i>
+                        <p>{{ __('Products') }}</p>
+                    </x-nav-item>
+                @endcan
                 @can(\App\Enums\PermissionEnum::view_users()->value)
                     <x-nav-item
                         :href="url('/users')"
