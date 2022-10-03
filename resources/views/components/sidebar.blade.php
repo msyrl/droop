@@ -53,8 +53,8 @@
                 </x-nav-item>
                 @canany([\App\Enums\PermissionEnum::view_roles()->value, \App\Enums\PermissionEnum::view_users()->value,
                     \App\Enums\PermissionEnum::view_sales_orders()->value])
+                    <li class="nav-header">{{ __('Admin side') }}</li>
                 @endcanany
-                <li class="nav-header">{{ __('Admin side') }}</li>
                 @can(\App\Enums\PermissionEnum::view_sales_orders()->value)
                     <x-nav-item
                         :href="url('/sales-orders')"
