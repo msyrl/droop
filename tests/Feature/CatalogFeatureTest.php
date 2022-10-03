@@ -46,4 +46,44 @@ class CatalogFeatureTest extends TestCase
             'value="' . $product->id . '"'
         ], false);
     }
+
+    /**
+     * @test
+     */
+    public function shouldShowCatalogDetailPage(): void
+    {
+        /** @var Product */
+        $product = Product::factory()->create();
+
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        $response = $this->actingAs($user)->get('/catalogs/' . $product->id);
+
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowProductOnCatalogShowPage(): void
+    {
+        /** @var Product */
+        $product = Product::factory()->create();
+
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        $response = $this->actingAs($user)->get('/catalogs/' . $product->id);
+
+        $response->assertSee([
+            $product->name,
+            $product->featured_image_url,
+            $product->formatted_price,
+            $product->description,
+        ]);
+
+        $response->assertSee([
+            'value="' . $product->id . '"',
+            'name="quantity"',
+        ], false);
+    }
 }

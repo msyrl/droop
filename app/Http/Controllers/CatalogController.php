@@ -33,4 +33,15 @@ class CatalogController extends Controller
             'products' => $products,
         ]);
     }
+
+    /**
+     * @param Product $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
+    {
+        return Response::view('catalog.show', [
+            'product' => $product,
+        ]);
+    }
 }

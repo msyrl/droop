@@ -7,8 +7,6 @@
 
     <!-- Content Header (Page header) -->
     <div class="content-header">
-        <div class="d-flex mb-2">
-        </div>
         <div class="container">
             <div class="row justify-content-between mb-2">
                 <div class="col-auto">
@@ -118,7 +116,7 @@
                                             name="product_id"
                                             value="{{ $product->id }}"
                                         >
-                                        <a href="#">
+                                        <a href="{{ url('/catalogs/' . $product->id) }}">
                                             <img
                                                 src="{{ $product->featured_image_url }}"
                                                 alt="{{ $product->name }}"
