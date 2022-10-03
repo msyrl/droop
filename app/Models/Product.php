@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\CurrencyHelper;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ class Product extends Model implements HasMedia
 
     public function getFormattedPriceAttribute(): string
     {
-        return number_format($this->price);
+        return CurrencyHelper::format($this->price);
     }
 
     public function getFeaturedImageUrlAttribute(): string

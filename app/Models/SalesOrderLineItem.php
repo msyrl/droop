@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\CurrencyHelper;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,16 +34,16 @@ class SalesOrderLineItem extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return number_format($this->price);
+        return CurrencyHelper::format($this->price);
     }
 
     public function getFormattedQuantityAttribute(): string
     {
-        return number_format($this->quantity);
+        return CurrencyHelper::format($this->quantity);
     }
 
     public function getFormattedTotalPriceAttribute(): string
     {
-        return number_format($this->total_price);
+        return CurrencyHelper::format($this->total_price);
     }
 }

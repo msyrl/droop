@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SalesOrderStatusEnum;
+use App\Helpers\CurrencyHelper;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -58,12 +59,12 @@ class SalesOrder extends Model implements HasMedia
 
     public function getFormattedQuantityAttribute(): string
     {
-        return number_format($this->quantity);
+        return CurrencyHelper::format($this->quantity);
     }
 
     public function getFormattedTotalPriceAttribute(): string
     {
-        return number_format($this->total_price);
+        return CurrencyHelper::format($this->total_price);
     }
 
     public function getFormattedHasAttachmentAttribute(): string
