@@ -54,4 +54,6 @@ Route::group([
 
     Route::get('/catalogs', [\App\Http\Controllers\CatalogController::class, 'index']);
     Route::get('/catalogs/{product}', [\App\Http\Controllers\CatalogController::class, 'show']);
+
+    Route::get('/my/purchases', [\App\Http\Controllers\MyPurchaseController::class, 'index']);
 });

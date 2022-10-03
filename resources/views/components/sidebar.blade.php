@@ -38,18 +38,18 @@
                     <p>{{ __('Catalog') }}</p>
                 </x-nav-item>
                 <x-nav-item
-                    :href="url('/users/cart')"
-                    activeHref="/users/cart"
+                    :href="url('/my/cart')"
+                    activeHref="/my/cart"
                 >
                     <i class="nav-icon fas fa-shopping-cart"></i>
                     <p>{{ __('Cart') }}</p>
                 </x-nav-item>
                 <x-nav-item
-                    :href="url('/users/purchase-histories')"
-                    activeHref="/users/purchase-histories"
+                    :href="url('/my/purchases')"
+                    activeHref="/my/purchases"
                 >
-                    <i class="nav-icon fas fa-history"></i>
-                    <p>{{ __('Purchase histories') }}</p>
+                    <i class="nav-icon fas fa-list-alt"></i>
+                    <p>{{ __('Purchases') }}</p>
                 </x-nav-item>
                 @canany([\App\Enums\PermissionEnum::view_roles()->value, \App\Enums\PermissionEnum::view_users()->value,
                     \App\Enums\PermissionEnum::view_sales_orders()->value])
