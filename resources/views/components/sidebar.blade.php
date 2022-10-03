@@ -27,8 +27,8 @@
                     :href="url('/')"
                     activeHref="/"
                 >
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>Dashboard</p>
+                    <i class="nav-icon fas fa-home"></i>
+                    <p>{{ __('Home') }}</p>
                 </x-nav-item>
                 <x-nav-item
                     :href="url('/sales-orders')"
