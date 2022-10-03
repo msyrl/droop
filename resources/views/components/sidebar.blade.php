@@ -30,6 +30,27 @@
                     <i class="nav-icon fas fa-home"></i>
                     <p>{{ __('Home') }}</p>
                 </x-nav-item>
+                <x-nav-item
+                    :href="url('/catalogs')"
+                    activeHref="/catalogs"
+                >
+                    <i class="nav-icon fas fa-boxes"></i>
+                    <p>{{ __('Catalog') }}</p>
+                </x-nav-item>
+                <x-nav-item
+                    :href="url('/users/cart')"
+                    activeHref="/users/cart"
+                >
+                    <i class="nav-icon fas fa-shopping-cart"></i>
+                    <p>{{ __('Cart') }}</p>
+                </x-nav-item>
+                <x-nav-item
+                    :href="url('/users/purchase-histories')"
+                    activeHref="/users/purchase-histories"
+                >
+                    <i class="nav-icon fas fa-history"></i>
+                    <p>{{ __('Purchase histories') }}</p>
+                </x-nav-item>
                 @canany([\App\Enums\PermissionEnum::view_roles()->value, \App\Enums\PermissionEnum::view_users()->value,
                     \App\Enums\PermissionEnum::view_sales_orders()->value])
                 @endcanany
