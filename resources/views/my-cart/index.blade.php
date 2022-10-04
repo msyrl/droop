@@ -31,12 +31,112 @@
                         <div class="card">
                             <div class="card-body">
                                 @foreach ($cart->lineItems as $lineItem)
-                                    <x-line-item
-                                        :lineItem="$lineItem"
-                                        :first="$loop->first"
-                                        :last="$loop->last"
-                                    />
+                                    <div
+                                        class="row align-items-start @if (!$loop->first) border-top pt-2 @else pt-0 @endif @if (!$loop->last) pb-2 @endif">
+                                        <div class="col-auto">
+                                            <img
+                                                src="{{ $lineItem->product->featured_image_url }}"
+                                                alt="{{ $lineItem->name }}"
+                                                width="40"
+                                            />
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm">
+                                                            <a
+                                                                href="{{ url('/catalogs/' . $lineItem->product_id) }}"
+                                                                target="_blank"
+                                                            >{{ $lineItem->name }}</a>
+                                                            @if ($lineItem->sku)
+                                                                <div>{{ __('SKU') }}: {{ $lineItem->sku }}</div>
+                                                            @endif
+                                                        </div>
+                                                        <div class="col-12 col-sm-2">
+                                                            {{ $lineItem->formatted_price }}
+                                                        </div>
+                                                        <div class="col-12 col-sm-auto">
+                                                            <div
+                                                                class="input-group mb-3 quantity-wrapper"
+                                                                style="width: 170px;"
+                                                            >
+                                                                <div class="input-group-prepend">
+                                                                    <button
+                                                                        type="button"
+                                                                        class="btn btn-default quantity-increment"
+                                                                    >
+                                                                        <i class="fas fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <input
+                                                                    type="number"
+                                                                    name="quantity"
+                                                                    value="1"
+                                                                    class="form-control text-center quantity"
+                                                                    min="1"
+                                                                />
+                                                                <div class="input-group-append">
+                                                                    <button
+                                                                        type="button"
+                                                                        class="btn btn-default quantity-decrement"
+                                                                    >
+                                                                        <i class="fas fa-minus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-sm-auto">
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-primary"
+                                                            >
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-outline-danger"
+                                                            >
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col text-right">{{ $lineItem->formatted_total_price }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
+                                <script>
+                                    var Quantity = (function() {
+                                        $('.quantity-increment').on('click', function() {
+                                            var $quantityWrapper = $(this).closest('.quantity-wrapper');
+                                            var $quantity = $quantityWrapper.find('.quantity');
+                                            var previousQuantity = parseInt($quantity.val());
+
+                                            $quantity.val(previousQuantity + 1);
+                                        });
+
+                                        $('.quantity-decrement').on('click', function() {
+                                            var $quantityWrapper = $(this).closest('.quantity-wrapper');
+                                            var $quantity = $quantityWrapper.find('.quantity');
+                                            var previousQuantity = parseInt($quantity.val());
+
+                                            if (previousQuantity > 1) {
+                                                $quantity.val(previousQuantity - 1);
+                                            }
+                                        });
+
+                                        $('.quantity').on('change', function() {
+                                            if ($(this).val() > 0) {
+                                                return;
+                                            }
+
+                                            $(this).val(1);
+                                        });
+                                    })();
+                                </script>
                             </div>
                         </div>
                         <div class="card">
