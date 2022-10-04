@@ -5,7 +5,7 @@ namespace App\Enums;
 use Spatie\Enum\Laravel\Enum;
 
 /**
- * @method static self draft()
+ * @method static self waiting()
  * @method static self processing()
  * @method static self packing()
  * @method static self delivering()
