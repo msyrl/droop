@@ -131,4 +131,26 @@ Table sales_order_line_items {
     quantity bigint [not null, unsigned]
     total_price bigint [not null, unsigned]
 }
+
+Table carts {
+    id varchar [not null, pk] // uuid
+    created_at timestamp [not null, default: `now()`]
+    updated_at timestamp [not null, default: `now() ON UPDATE now()`]
+    user_id varchar [not null, ref: > users.id]
+    quantity bigint [not null, unsigned, default: 0]
+    total_price bigint [not null, unsigned, default: 0]
+}
+
+Table cart_line_items {
+    id varchar [not null, pk] // uuid
+    created_at timestamp [not null, default: `now()`]
+    updated_at timestamp [not null, default: `now() ON UPDATE now()`]
+    cart_id varchar [not null, ref: > carts.id]
+    product_id varchar [not null]
+    name varchar [not null]
+    sku varchar [null]
+    price bigint [not null, unsigned]
+    quantity bigint [not null, unsigned]
+    total_price bigint [not null, unsigned]
+}
 ```
