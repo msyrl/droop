@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row justify-content-between mb-2">
                 <div class="col-auto">
-                    <h1 class="m-0">{{ __('Sales order') }}</h1>
+                    <h1 class="m-0">{{ __('Sales orders') }}</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
