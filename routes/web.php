@@ -60,4 +60,6 @@ Route::group([
 
     Route::get('/my/purchases', [\App\Http\Controllers\MyPurchaseController::class, 'index']);
     Route::get('/my/purchases/{purchase}', [\App\Http\Controllers\MyPurchaseController::class, 'show']);
+
+    Route::get('/my/cart', [\App\Http\Controllers\MyCartController::class, 'index']);
 });
