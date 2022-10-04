@@ -27,7 +27,9 @@ class Cart extends Model
 
     public function lineItems(): HasMany
     {
-        return $this->hasMany(CartLineItem::class);
+        return $this
+            ->hasMany(CartLineItem::class)
+            ->orderBy('created_at');
     }
 
     public function getFormattedQuantityAttribute(): string
