@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Cart;
 use App\Models\CartLineItem;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Builders\UserBuilder;
@@ -48,6 +49,115 @@ class MyCartFeatureTest extends TestCase
             $cart->lineItems[0]->formatted_price,
             $cart->lineItems[0]->formatted_quantity,
             $cart->lineItems[0]->formatted_total_price,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessAddProductToCart(): void
+    {
+        /** @var Product */
+        $product = Product::factory()->create();
+
+        /** @var User */
+        $user = UserBuilder::make()->build();
+
+        $response = $this->actingAs($user)->post('/my/cart', [
+            'product_id' => $product->id,
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('carts', [
+            'user_id' => $user->id,
+            'quantity' => 1,
+            'total_price' => $product->price,
+        ]);
+
+        $this->assertDatabaseHas('cart_line_items', [
+            'product_id' => $product->id,
+            'sku' => $product->sku,
+            'price' => $product->price,
+            'quantity' => 1,
+            'total_price' => $product->price,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessAddProductToCartWithSpecifiedQuantity(): void
+    {
+        /** @var Product */
+        $product = Product::factory()->create();
+
+        /** @var User */
+        $user = UserBuilder::make()->build();
+
+        $response = $this->actingAs($user)->post('/my/cart', [
+            'product_id' => $product->id,
+            'quantity' => 5
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('carts', [
+            'user_id' => $user->id,
+            'quantity' => 5,
+            'total_price' => $product->price * 5,
+        ]);
+
+        $this->assertDatabaseHas('cart_line_items', [
+            'product_id' => $product->id,
+            'sku' => $product->sku,
+            'price' => $product->price,
+            'quantity' => 5,
+            'total_price' => $product->price * 5,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessAddProductToExistingCart(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        /** @var Product */
+        $product1 = Product::factory()->create();
+        /** @var Cart */
+        $cart = Cart::factory()
+            ->for($user)
+            ->create([
+                'quantity' => 1,
+                'total_price' => $product1->price,
+            ]);
+
+        $cart->addLineItem($product1, 1);
+
+        /** @var Product */
+        $product2 = Product::factory()->create();
+        $response = $this->actingAs($user)->post('/my/cart', [
+            'product_id' => $product2->id,
+            'quantity' => 4,
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('carts', [
+            'id' => $cart->id,
+            'user_id' => $user->id,
+            'quantity' => 5,
+            'total_price' => ($product1->price) + ($product2->price * 4),
+        ]);
+
+        $this->assertDatabaseHas('cart_line_items', [
+            'product_id' => $product2->id,
+            'sku' => $product2->sku,
+            'price' => $product2->price,
+            'quantity' => 4,
+            'total_price' => $product2->price * 4,
         ]);
     }
 }

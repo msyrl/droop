@@ -62,4 +62,5 @@ Route::group([
     Route::get('/my/purchases/{purchase}', [\App\Http\Controllers\MyPurchaseController::class, 'show']);
 
     Route::get('/my/cart', [\App\Http\Controllers\MyCartController::class, 'index']);
+    Route::post('/my/cart', [\App\Http\Controllers\MyCartController::class, 'store']);
 });

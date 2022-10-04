@@ -39,4 +39,21 @@ class Cart extends Model
     {
         return CurrencyHelper::format($this->total_price);
     }
+
+    public function addLineItem(Product $product, int $quantity): void
+    {
+        $this->lineItems()->create([
+            'product_id' => $product->id,
+            'sku' => $product->sku,
+            'name' => $product->name,
+            'price' => $product->price,
+            'quantity' => $quantity,
+            'total_price' => $product->price * $quantity,
+        ]);
+
+        $this->update([
+            'quantity' => $this->lineItems()->sum('quantity'),
+            'total_price' => $this->lineItems()->sum('total_price'),
+        ]);
+    }
 }
