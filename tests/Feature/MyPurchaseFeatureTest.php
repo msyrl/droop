@@ -36,7 +36,7 @@ class MyPurchaseFeatureTest extends TestCase
         /** @var SalesOrder */
         $purchase = SalesOrder::factory()
             ->for($user)
-            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->has(SalesOrderLineItem::factory(2), 'lineItems')
             ->create();
 
         $response = $this->actingAs($user)->get('/my/purchases');
@@ -58,7 +58,7 @@ class MyPurchaseFeatureTest extends TestCase
         /** @var SalesOrder */
         $purchase = SalesOrder::factory()
             ->for(User::factory())
-            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->has(SalesOrderLineItem::factory(2), 'lineItems')
             ->create();
 
         /** @var User */
@@ -85,7 +85,7 @@ class MyPurchaseFeatureTest extends TestCase
         /** @var SalesOrder */
         $purchase = SalesOrder::factory()
             ->for($user)
-            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->has(SalesOrderLineItem::factory(2), 'lineItems')
             ->create();
 
         $response = $this->actingAs($user)->get('/my/purchases/' . $purchase->id);
