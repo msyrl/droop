@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MyCartStoreRequest;
+use App\Http\Requests\MyCartUpdateRequest;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -50,6 +51,33 @@ class MyCartController extends Controller
 
         return Redirect::back()
             ->with('success', __('crud.added', [
+                'resource' => 'item',
+            ]));
+    }
+
+    /**
+     * @param MyCartUpdateRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(MyCartUpdateRequest $request)
+    {
+        DB::transaction(function () use ($request) {
+            /** @var Product */
+            $product = Product::query()->findOrFail($request->get('product_id'));
+            $quantity = intval($request->get('quantity'));
+
+            /** @var Cart */
+            $cart = Cart::query()
+                ->where('user_id', $request->user()->id)
+                ->firstOrFail();
+
+            $cart->updateLineItem($product, $quantity);
+
+            return $cart;
+        });
+
+        return Redirect::back()
+            ->with('success', __('crud.updated', [
                 'resource' => 'item',
             ]));
     }

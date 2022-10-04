@@ -43,64 +43,77 @@
                                         <div class="col">
                                             <div class="row">
                                                 <div class="col-8">
-                                                    <div class="row">
-                                                        <div class="col-12 col-sm">
-                                                            <a
-                                                                href="{{ url('/catalogs/' . $lineItem->product_id) }}"
-                                                                target="_blank"
-                                                            >{{ $lineItem->name }}</a>
-                                                            @if ($lineItem->sku)
-                                                                <div>{{ __('SKU') }}: {{ $lineItem->sku }}</div>
-                                                            @endif
-                                                        </div>
-                                                        <div class="col-12 col-sm-2">
-                                                            {{ $lineItem->formatted_price }}
-                                                        </div>
-                                                        <div class="col-12 col-sm-auto">
-                                                            <div
-                                                                class="input-group mb-3 quantity-wrapper"
-                                                                style="width: 170px;"
-                                                            >
-                                                                <div class="input-group-prepend">
-                                                                    <button
-                                                                        type="button"
-                                                                        class="btn btn-default quantity-increment"
-                                                                    >
-                                                                        <i class="fas fa-plus"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <input
-                                                                    type="number"
-                                                                    name="quantity"
-                                                                    value="1"
-                                                                    class="form-control text-center quantity"
-                                                                    min="1"
-                                                                />
-                                                                <div class="input-group-append">
-                                                                    <button
-                                                                        type="button"
-                                                                        class="btn btn-default quantity-decrement"
-                                                                    >
-                                                                        <i class="fas fa-minus"></i>
-                                                                    </button>
+                                                    <form
+                                                        action="{{ url('/my/cart') }}"
+                                                        method="POST"
+                                                    >
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <input
+                                                            type="hidden"
+                                                            name="product_id"
+                                                            value="{{ $lineItem->product_id }}"
+                                                        />
+                                                        <div class="row">
+                                                            <div class="col-12 col-sm">
+                                                                <a
+                                                                    href="{{ url('/catalogs/' . $lineItem->product_id) }}"
+                                                                    target="_blank"
+                                                                >{{ $lineItem->name }}</a>
+                                                                @if ($lineItem->sku)
+                                                                    <div>{{ __('SKU') }}: {{ $lineItem->sku }}
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                            <div class="col-12 col-sm-2">
+                                                                {{ $lineItem->formatted_price }}
+                                                            </div>
+                                                            <div class="col-12 col-sm-auto">
+                                                                <div
+                                                                    class="input-group mb-3 quantity-wrapper"
+                                                                    style="width: 170px;"
+                                                                >
+                                                                    <div class="input-group-prepend">
+                                                                        <button
+                                                                            type="button"
+                                                                            class="btn btn-default quantity-increment"
+                                                                        >
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                    <input
+                                                                        type="number"
+                                                                        name="quantity"
+                                                                        value="{{ $lineItem->quantity }}"
+                                                                        class="form-control text-center quantity"
+                                                                        min="1"
+                                                                    />
+                                                                    <div class="input-group-append">
+                                                                        <button
+                                                                            type="button"
+                                                                            class="btn btn-default quantity-decrement"
+                                                                        >
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-12 col-sm-auto">
+                                                                <button
+                                                                    type="submit"
+                                                                    class="btn btn-primary"
+                                                                >
+                                                                    <i class="fas fa-check"></i>
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    class="btn btn-outline-danger"
+                                                                >
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-12 col-sm-auto">
-                                                            <button
-                                                                type="button"
-                                                                class="btn btn-primary"
-                                                            >
-                                                                <i class="fas fa-check"></i>
-                                                            </button>
-                                                            <button
-                                                                type="button"
-                                                                class="btn btn-outline-danger"
-                                                            >
-                                                                <i class="fas fa-trash-alt"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                                    </form>
                                                 </div>
                                                 <div class="col text-right">{{ $lineItem->formatted_total_price }}
                                                 </div>

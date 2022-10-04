@@ -71,4 +71,20 @@ class Cart extends Model
             'total_price' => $this->lineItems()->sum('total_price'),
         ]);
     }
+
+    public function updateLineItem(Product $product, int $quantity): void
+    {
+        $this
+            ->lineItems()
+            ->where('product_id', $product->id)
+            ->update([
+                'quantity' => $quantity,
+                'total_price' => $product->price * $quantity,
+            ]);
+
+        $this->update([
+            'quantity' => $this->lineItems()->sum('quantity'),
+            'total_price' => $this->lineItems()->sum('total_price'),
+        ]);
+    }
 }

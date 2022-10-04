@@ -196,4 +196,44 @@ class MyCartFeatureTest extends TestCase
             'total_price' => $product->price * 5,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessUpdateLineItemQuantity(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        /** @var Product */
+        $product = Product::factory()->create();
+        /** @var Cart */
+        $cart = Cart::factory()
+            ->for($user)
+            ->create();
+
+        $cart->addLineItem($product, 1);
+
+        $response = $this->actingAs($user)->put('/my/cart', [
+            'product_id' => $product->id,
+            'quantity' => 3,
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('carts', [
+            'id' => $cart->id,
+            'user_id' => $user->id,
+            'quantity' => 3,
+            'total_price' => $product->price * 3,
+        ]);
+
+        $this->assertDatabaseHas('cart_line_items', [
+            'cart_id' => $cart->id,
+            'product_id' => $product->id,
+            'sku' => $product->sku,
+            'price' => $product->price,
+            'quantity' => 3,
+            'total_price' => $product->price * 3,
+        ]);
+    }
 }
