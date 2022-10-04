@@ -42,7 +42,12 @@
                     activeHref="my/cart"
                 >
                     <i class="nav-icon fas fa-shopping-cart"></i>
-                    <p>{{ __('Cart') }}</p>
+                    <p>
+                        <span>{{ __('Cart') }}</span>
+                        @if (Auth::user()->cart_total_line_items)
+                            <span class="badge badge-primary right">{{ Auth::user()->cart_total_line_items }}</span>
+                        @endif
+                    </p>
                 </x-nav-item>
                 <x-nav-item
                     :href="url('/my/purchases')"
