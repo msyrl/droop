@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
 use App\Models\SalesOrder;
 use App\Models\SalesOrderLineItem;
 use App\Models\User;
@@ -35,7 +34,7 @@ class MyPurchaseFeatureTest extends TestCase
         $user = UserBuilder::make()->build();
 
         /** @var SalesOrder */
-        $salesOrder = SalesOrder::factory()
+        $purchase = SalesOrder::factory()
             ->for($user)
             ->has(SalesOrderLineItem::factory(), 'lineItems')
             ->create();
@@ -43,11 +42,11 @@ class MyPurchaseFeatureTest extends TestCase
         $response = $this->actingAs($user)->get('/my/purchases');
 
         $response->assertSee([
-            $salesOrder->name,
-            $salesOrder->formatted_status,
-            $salesOrder->formatted_paid,
-            $salesOrder->formatted_quantity,
-            $salesOrder->formatted_total_price,
+            $purchase->name,
+            $purchase->formatted_status,
+            $purchase->formatted_paid,
+            $purchase->formatted_quantity,
+            $purchase->formatted_total_price,
         ]);
     }
 
@@ -57,7 +56,7 @@ class MyPurchaseFeatureTest extends TestCase
     public function shouldNotContainOtherUserSalesOrderOnMyPurchaseListPage(): void
     {
         /** @var SalesOrder */
-        $salesOrder = SalesOrder::factory()
+        $purchase = SalesOrder::factory()
             ->for(User::factory())
             ->has(SalesOrderLineItem::factory(), 'lineItems')
             ->create();
@@ -67,11 +66,42 @@ class MyPurchaseFeatureTest extends TestCase
         $response = $this->actingAs($user)->get('/my/purchases');
 
         $response->assertDontSee([
-            $salesOrder->name,
-            $salesOrder->formatted_status,
-            $salesOrder->formatted_paid,
-            $salesOrder->formatted_quantity,
-            $salesOrder->formatted_total_price,
+            $purchase->name,
+            $purchase->formatted_status,
+            $purchase->formatted_paid,
+            $purchase->formatted_quantity,
+            $purchase->formatted_total_price,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowPurchaseOnPurchaseShowPage(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()->build();
+
+        /** @var SalesOrder */
+        $purchase = SalesOrder::factory()
+            ->for($user)
+            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->create();
+
+        $response = $this->actingAs($user)->get('/my/purchases/' . $purchase->id);
+
+        $response->assertSee([
+            $purchase->name,
+            $purchase->formatted_status,
+            $purchase->formatted_paid,
+            $purchase->formatted_quantity,
+            $purchase->formatted_total_price,
+            $purchase->user->name,
+            $purchase->user->email,
+            $purchase->lineItems[0]->name,
+            $purchase->lineItems[0]->formatted_price,
+            $purchase->lineItems[0]->formatted_quantity,
+            $purchase->lineItems[0]->formatted_total_price,
         ]);
     }
 }

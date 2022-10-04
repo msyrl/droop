@@ -135,7 +135,7 @@
                                         <tr>
                                             <td class="align-middle">
                                                 <a
-                                                    href="{{ url('/sales-orders/' . $purchase->id) }}">{{ $purchase->name }}</a>
+                                                    href="{{ url('/my/purchases/' . $purchase->id) }}">{{ $purchase->name }}</a>
                                             </td>
                                             <td class="align-middle">{{ $purchase->created_at }}</td>
                                             <td class="align-middle">{{ $purchase->formatted_status }}</td>

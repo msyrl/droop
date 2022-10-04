@@ -38,4 +38,17 @@ class MyPurchaseController extends Controller
             'purchases' => $purchases,
         ]);
     }
+
+    /**
+     * @param SalesOrder $purchases
+     * @return \Illuminate\Http\Response
+     */
+    public function show(SalesOrder $purchase)
+    {
+        $purchase->load(['user', 'lineItems.product']);
+
+        return Response::view('my-purchase.show', [
+            'purchase' => $purchase,
+        ]);
+    }
 }
