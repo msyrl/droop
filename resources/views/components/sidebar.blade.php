@@ -32,21 +32,21 @@
                 </x-nav-item>
                 <x-nav-item
                     :href="url('/catalogs')"
-                    activeHref="/catalogs"
+                    activeHref="catalogs"
                 >
                     <i class="nav-icon fas fa-boxes"></i>
                     <p>{{ __('Catalog') }}</p>
                 </x-nav-item>
                 <x-nav-item
                     :href="url('/my/cart')"
-                    activeHref="/my/cart"
+                    activeHref="my/cart"
                 >
                     <i class="nav-icon fas fa-shopping-cart"></i>
                     <p>{{ __('Cart') }}</p>
                 </x-nav-item>
                 <x-nav-item
                     :href="url('/my/purchases')"
-                    activeHref="/my/purchases"
+                    activeHref="my/purchases"
                 >
                     <i class="nav-icon fas fa-list-alt"></i>
                     <p>{{ __('Purchases') }}</p>
