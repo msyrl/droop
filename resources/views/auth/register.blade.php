@@ -44,15 +44,32 @@
             <a href="{{ url('/') }}">{{ Config::get('app.name') }}</a>
         </div>
         <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">{{ __('Sign in to start your session') }}</p>
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">{{ __('Register a new membership') }}</p>
 
                 <form
-                    action="{{ url('/auth/signin') }}"
+                    action="{{ url('/auth/register') }}"
                     method="POST"
                     novalidate
                 >
                     @csrf
+                    <div class="input-group mb-3">
+                        <input
+                            type="name"
+                            name="name"
+                            class="form-control @error('name') is-invalid @enderror"
+                            placeholder="{{ __('Name') }}"
+                            value="{{ Request::old('name') }}"
+                        >
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="input-group mb-3">
                         <input
                             type="email"
@@ -86,37 +103,34 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input
-                                    type="checkbox"
-                                    id="remember"
-                                    name="remember"
-                                    value="1"
-                                >
-                                <label for="remember">
-                                    {{ __('Remember Me') }}
-                                </label>
+                    <div class="input-group mb-3">
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            class="form-control @error('password') is-invalid @enderror"
+                            placeholder="{{ __('Password confirmation') }}"
+                        >
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
                             </div>
+                        </div>
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <a href="{{ url('/auth/signin') }}">{{ __('I already have a membership') }}</a>
                         </div>
                         <div class="col-4">
                             <button
                                 type="submit"
                                 class="btn btn-primary btn-block"
-                            >{{ __('Sign In') }}</button>
+                            >{{ __('Register') }}</button>
                         </div>
                     </div>
                 </form>
-
-                <br />
-
-                <p class="mb-1">
-                    <a href="#">{{ __('I forgot my password') }}</a>
-                </p>
-                <p class="mb-0">
-                    <a href="{{ url('/auth/register') }}">{{ __('Register a new membership') }}</a>
-                </p>
             </div>
         </div>
     </div>

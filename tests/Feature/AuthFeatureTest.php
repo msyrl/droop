@@ -72,4 +72,51 @@ class AuthFeatureTest extends TestCase
 
         $this->assertGuest();
     }
+
+    /**
+     * @test
+     */
+    public function shouldShowRegisterPage(): void
+    {
+        $response = $this->get('/auth/register');
+
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessRegisterAndRedirectToHomePage(): void
+    {
+        $response = $this->post('/auth/register', [
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+        $response->assertRedirect();
+
+        $this->isAuthenticated();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldErrorRegisterWhenEmailAlreadyRegistered(): void
+    {
+        User::factory()->create([
+            'email' => 'johndoe@example.com',
+        ]);
+
+        $response = $this->post('/auth/register', [
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
+        ]);
+
+        $response->assertSessionHasErrors(['email']);
+    }
 }

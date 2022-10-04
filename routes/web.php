@@ -17,6 +17,9 @@ Route::view('/auth/signin', 'auth.signin')->middleware('guest');
 Route::post('/auth/signin', [\App\Http\Controllers\AuthController::class, 'signin'])->middleware('guest');
 Route::post('/auth/signout', [\App\Http\Controllers\AuthController::class, 'signout'])->middleware('auth');
 
+Route::view('/auth/register', 'auth.register')->middleware('guest');
+Route::post('/auth/register', [\App\Http\Controllers\AuthController::class, 'register'])->middleware('guest');
+
 Route::group([
     'middleware' => ['auth']
 ], function () {

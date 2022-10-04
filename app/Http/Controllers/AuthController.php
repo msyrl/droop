@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthRegisterRequest;
 use App\Http\Requests\AuthSigninRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -38,6 +40,22 @@ class AuthController
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        return Response::redirectTo('/');
+    }
+
+    /**
+     * @param AuthRegisterRequest $authRegisterRequest
+     * @return \Illuminate\Http\Response
+     */
+    public function register(AuthRegisterRequest $authRegisterRequest)
+    {
+        /** @var User */
+        $user = User::create(
+            $authRegisterRequest->validated()
+        );
+
+        Auth::login($user);
 
         return Response::redirectTo('/');
     }
