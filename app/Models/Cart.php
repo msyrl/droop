@@ -42,14 +42,27 @@ class Cart extends Model
 
     public function addLineItem(Product $product, int $quantity): void
     {
-        $this->lineItems()->create([
-            'product_id' => $product->id,
-            'sku' => $product->sku,
-            'name' => $product->name,
-            'price' => $product->price,
-            'quantity' => $quantity,
-            'total_price' => $product->price * $quantity,
-        ]);
+        /** @var CartLineItem */
+        $existingLineItem = $this
+            ->lineItems()
+            ->where('product_id', $product->id)
+            ->first();
+
+        if ($existingLineItem) {
+            $existingLineItem->quantity += $quantity;
+            $existingLineItem->total_price = $product->price * $existingLineItem->quantity;
+            $existingLineItem->save();
+        } else {
+            $this->lineItems()->create([
+                'product_id' => $product->id,
+                'sku' => $product->sku,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $quantity,
+                'total_price' => $product->price * $quantity,
+            ]);
+        }
+
 
         $this->update([
             'quantity' => $this->lineItems()->sum('quantity'),

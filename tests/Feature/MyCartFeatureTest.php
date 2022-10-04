@@ -129,10 +129,7 @@ class MyCartFeatureTest extends TestCase
         /** @var Cart */
         $cart = Cart::factory()
             ->for($user)
-            ->create([
-                'quantity' => 1,
-                'total_price' => $product1->price,
-            ]);
+            ->create();
 
         $cart->addLineItem($product1, 1);
 
@@ -158,6 +155,45 @@ class MyCartFeatureTest extends TestCase
             'price' => $product2->price,
             'quantity' => 4,
             'total_price' => $product2->price * 4,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessIncrementLineItemQuantityToExistingCart(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        /** @var Product */
+        $product = Product::factory()->create();
+        /** @var Cart */
+        $cart = Cart::factory()
+            ->for($user)
+            ->create();
+
+        $cart->addLineItem($product, 1);
+
+        $response = $this->actingAs($user)->post('/my/cart', [
+            'product_id' => $product->id,
+            'quantity' => 4,
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('carts', [
+            'id' => $cart->id,
+            'user_id' => $user->id,
+            'quantity' => 5,
+            'total_price' => $product->price * 5,
+        ]);
+
+        $this->assertDatabaseHas('cart_line_items', [
+            'product_id' => $product->id,
+            'sku' => $product->sku,
+            'price' => $product->price,
+            'quantity' => 5,
+            'total_price' => $product->price * 5,
         ]);
     }
 }
