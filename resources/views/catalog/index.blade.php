@@ -108,9 +108,10 @@
                             <div class="col-6 col-md-4 col-lg-3 p-2">
                                 <div class="card mb-0">
                                     <form
-                                        action="{{ url('/cart/products') }}"
+                                        action="{{ url('/my/cart') }}"
                                         method="POST"
                                     >
+                                        @csrf
                                         <input
                                             type="hidden"
                                             name="product_id"

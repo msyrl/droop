@@ -80,7 +80,7 @@
                                     <p>{!! $product->description !!}</p>
                                     <p class="h4 mb-3 text-bold">{{ $product->formatted_price }}</p>
                                     <form
-                                        action="{{ url('/cart/products') }}"
+                                        action="{{ url('/my/cart') }}"
                                         method="POST"
                                     >
                                         @csrf
