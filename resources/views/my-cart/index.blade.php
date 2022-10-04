@@ -108,6 +108,7 @@
                                                                 <button
                                                                     type="button"
                                                                     class="btn btn-outline-danger"
+                                                                    onclick="document.getElementById('btn-delete-line-item-{{ $lineItem->id }}').click()"
                                                                 >
                                                                     <i class="fas fa-trash-alt"></i>
                                                                 </button>
@@ -115,10 +116,28 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="col text-right">{{ $lineItem->formatted_total_price }}
+                                                <div class="col text-right">
+                                                    {{ $lineItem->formatted_total_price }}
                                                 </div>
                                             </div>
                                         </div>
+                                        <form
+                                            action="{{ url('/my/cart') }}"
+                                            method="POST"
+                                            style="display: none;"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+                                            <input
+                                                type="hidden"
+                                                name="product_id"
+                                                value="{{ $lineItem->product_id }}"
+                                            />
+                                            <button
+                                                type="submit"
+                                                id="btn-delete-line-item-{{ $lineItem->id }}"
+                                            ></button>
+                                        </form>
                                     </div>
                                 @endforeach
                                 <script>

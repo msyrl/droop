@@ -87,4 +87,21 @@ class Cart extends Model
             'total_price' => $this->lineItems()->sum('total_price'),
         ]);
     }
+
+    public function deleteLineItem(string $productId): void
+    {
+        $this
+            ->lineItems()
+            ->where('product_id', $productId)
+            ->delete();
+
+        if ($this->lineItems()->count()) {
+            $this->update([
+                'quantity' => $this->lineItems()->sum('quantity'),
+                'total_price' => $this->lineItems()->sum('total_price'),
+            ]);
+        } else {
+            $this->delete();
+        }
+    }
 }

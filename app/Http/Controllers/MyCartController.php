@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MyCartDestroyRequest;
 use App\Http\Requests\MyCartStoreRequest;
 use App\Http\Requests\MyCartUpdateRequest;
 use App\Models\Cart;
@@ -78,6 +79,29 @@ class MyCartController extends Controller
 
         return Redirect::back()
             ->with('success', __('crud.updated', [
+                'resource' => 'item',
+            ]));
+    }
+
+    /**
+     * @param MyCartDestroyRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(MyCartDestroyRequest $request)
+    {
+        DB::transaction(function () use ($request) {
+            /** @var Cart */
+            $cart = Cart::query()
+                ->where('user_id', $request->user()->id)
+                ->firstOrFail();
+
+            $cart->deleteLineItem($request->get('product_id'));
+
+            return $cart;
+        });
+
+        return Redirect::back()
+            ->with('success', __('crud.deleted', [
                 'resource' => 'item',
             ]));
     }

@@ -236,4 +236,74 @@ class MyCartFeatureTest extends TestCase
             'total_price' => $product->price * 3,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessDeleteLineItem(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        /** @var Product */
+        $product1 = Product::factory()->create();
+        /** @var Product */
+        $product2 = Product::factory()->create();
+        /** @var Cart */
+        $cart = Cart::factory()
+            ->for($user)
+            ->create();
+
+        $cart->addLineItem($product1, 1);
+        $cart->addLineItem($product2, 1);
+
+        $response = $this->actingAs($user)->delete('/my/cart', [
+            'product_id' => $product1->id,
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('carts', [
+            'id' => $cart->id,
+            'user_id' => $user->id,
+            'quantity' => 1,
+            'total_price' => $product2->price,
+        ]);
+
+        $this->assertDatabaseMissing('cart_line_items', [
+            'cart_id' => $cart->id,
+            'product_id' => $product1->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessDeleteLineItemAndDeleteCart(): void
+    {
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        /** @var Product */
+        $product = Product::factory()->create();
+        /** @var Cart */
+        $cart = Cart::factory()
+            ->for($user)
+            ->create();
+
+        $cart->addLineItem($product, 1);
+
+        $response = $this->actingAs($user)->delete('/my/cart', [
+            'product_id' => $product->id,
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseMissing('carts', [
+            'id' => $cart->id,
+        ]);
+
+        $this->assertDatabaseMissing('cart_line_items', [
+            'cart_id' => $cart->id,
+            'product_id' => $product->id,
+        ]);
+    }
 }
