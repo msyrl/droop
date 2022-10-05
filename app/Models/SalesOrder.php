@@ -27,7 +27,7 @@ class SalesOrder extends Model implements HasMedia
         'name',
         'quantity',
         'total_line_items_price',
-        'total_additional_price',
+        'total_additional_charges_price',
         'total_price',
     ];
 
@@ -74,9 +74,9 @@ class SalesOrder extends Model implements HasMedia
         return CurrencyHelper::format($this->total_line_items_price);
     }
 
-    public function getFormattedTotalAdditionalPriceAttribute(): string
+    public function getFormattedTotalAdditionalChargesPriceAttribute(): string
     {
-        return CurrencyHelper::format($this->total_additional_price);
+        return CurrencyHelper::format($this->total_additional_charges_price);
     }
 
     public function getFormattedTotalPriceAttribute(): string

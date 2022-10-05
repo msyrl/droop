@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTotalLineItemsPriceAndTotalAdditionalChargeFieldOnSalesOrdersTable extends Migration
+class AddTotalLineItemsPriceAndTotalAdditionalChargesPriceFieldOnSalesOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddTotalLineItemsPriceAndTotalAdditionalChargeFieldOnSalesOrdersTable exte
     {
         Schema::table('sales_orders', function (Blueprint $table) {
             $table->unsignedBigInteger('total_line_items_price')->default(0);
-            $table->unsignedBigInteger('total_additional_price')->default(0);
+            $table->unsignedBigInteger('total_additional_charges_price')->default(0);
         });
     }
 
@@ -29,7 +29,7 @@ class AddTotalLineItemsPriceAndTotalAdditionalChargeFieldOnSalesOrdersTable exte
         Schema::table('sales_orders', function (Blueprint $table) {
             $table->dropColumn([
                 'total_line_items_price',
-                'total_additional_price',
+                'total_additional_charges_price',
             ]);
         });
     }

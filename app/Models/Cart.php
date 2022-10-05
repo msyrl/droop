@@ -140,7 +140,7 @@ class Cart extends Model
 
         $salesOrder->quantity = $salesOrder->lineItems()->sum('quantity');
         $salesOrder->total_line_items_price = $salesOrder->lineItems()->sum('total_price');
-        $salesOrder->total_price = $salesOrder->total_line_items_price + $salesOrder->total_additional_price;
+        $salesOrder->total_price = $salesOrder->total_line_items_price + $salesOrder->total_additional_charges_price;
         $salesOrder->save();
         $this->delete();
 

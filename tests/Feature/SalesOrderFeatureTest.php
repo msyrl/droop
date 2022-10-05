@@ -51,7 +51,7 @@ class SalesOrderFeatureTest extends TestCase
             $salesOrder->formatted_paid,
             $salesOrder->formatted_quantity,
             $salesOrder->formatted_total_line_items_price,
-            $salesOrder->formatted_total_additional_price,
+            $salesOrder->formatted_total_additional_charges_price,
             $salesOrder->formatted_total_price,
         ]);
     }
@@ -79,7 +79,7 @@ class SalesOrderFeatureTest extends TestCase
             $salesOrder->formatted_paid,
             $salesOrder->formatted_quantity,
             $salesOrder->formatted_total_line_items_price,
-            $salesOrder->formatted_total_additional_price,
+            $salesOrder->formatted_total_additional_charges_price,
             $salesOrder->formatted_total_price,
             $salesOrder->user->name,
             $salesOrder->user->email,

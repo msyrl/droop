@@ -57,14 +57,14 @@
                                 <div class="col-auto ml-auto">{{ $salesOrder->formatted_total_line_items_price }}</div>
                             </div>
                             <div class="row mb-2">
-                                <div class="col">{{ __('Additional') }}</div>
+                                <div class="col">{{ __('Additional charges') }}</div>
                                 <div class="col-auto ml-auto">
                                     <input
                                         type="number"
-                                        name="total_additional_price"
+                                        name="total_additional_charges_price"
                                         class="form-control text-right"
                                         min="0"
-                                        value="{{ $salesOrder->total_additional_price }}"
+                                        value="{{ $salesOrder->total_additional_charges_price }}"
                                     />
                                 </div>
                             </div>

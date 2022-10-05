@@ -57,8 +57,8 @@
                                 <div class="col-auto ml-auto">{{ $purchase->formatted_total_line_items_price }}</div>
                             </div>
                             <div class="row mb-2">
-                                <div class="col">{{ __('Additional') }}</div>
-                                <div class="col-auto ml-auto">{{ $purchase->formatted_total_additional_price }}</div>
+                                <div class="col">{{ __('Additional charges') }}</div>
+                                <div class="col-auto ml-auto">{{ $purchase->formatted_total_additional_charges_price }}</div>
                             </div>
                             <div class="row text-bold">
                                 <div class="col">{{ __('Total') }}</div>

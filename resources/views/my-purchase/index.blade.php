@@ -101,18 +101,18 @@
                                             >{{ __('Total line items price descending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
-                                                    'sort' => 'total_additional_price',
+                                                    'sort' => 'total_additional_charges_price',
                                                     'direction' => 'asc',
                                                 ]) }}"
-                                                class="dropdown-item {{ Request::get('sort') == 'total_additional_price' && Request::get('direction') == 'asc' ? 'active' : '' }}"
-                                            >{{ __('Total additional price ascending') }}</a>
+                                                class="dropdown-item {{ Request::get('sort') == 'total_additional_charges_price' && Request::get('direction') == 'asc' ? 'active' : '' }}"
+                                            >{{ __('Total additional charges price ascending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
-                                                    'sort' => 'total_additional_price',
+                                                    'sort' => 'total_additional_charges_price',
                                                     'direction' => 'desc',
                                                 ]) }}"
-                                                class="dropdown-item {{ Request::get('sort') == 'total_additional_price' && Request::get('direction') == 'desc' ? 'active' : '' }}"
-                                            >{{ __('Total additional price descending') }}</a>
+                                                class="dropdown-item {{ Request::get('sort') == 'total_additional_charges_price' && Request::get('direction') == 'desc' ? 'active' : '' }}"
+                                            >{{ __('Total additional charges price descending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
                                                     'sort' => 'total_price',
@@ -156,7 +156,7 @@
                                         <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Quantity') }}</th>
                                         <th>{{ __('Total line items price') }}</th>
-                                        <th>{{ __('Total additional price') }}</th>
+                                        <th>{{ __('Total additional charges price') }}</th>
                                         <th>{{ __('Total price') }}</th>
                                     </tr>
                                 </thead>
@@ -175,7 +175,7 @@
                                                 {{ $purchase->formatted_total_line_items_price }}
                                             </td>
                                             <td class="align-middle">
-                                                {{ $purchase->formatted_total_additional_price }}
+                                                {{ $purchase->formatted_total_additional_charges_price }}
                                             </td>
                                             <td class="align-middle">{{ $purchase->formatted_total_price }}</td>
                                         </tr>
