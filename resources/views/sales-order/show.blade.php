@@ -117,7 +117,7 @@
                         </div>
                     </form>
                     <x-card-sales-order-information :salesOrder="$salesOrder" />
-                    <x-card-attachments :attachments="$salesOrder->attachments" />
+                    <x-card-sales-order-attachments :attachments="$salesOrder->attachments" />
                 </div>
             </div>
         </div>

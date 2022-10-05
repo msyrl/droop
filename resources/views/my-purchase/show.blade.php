@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <x-card-sales-order-information :salesOrder="$purchase" />
-                    <x-card-attachments :attachments="$purchase->attachments" />
+                    <x-card-sales-order-attachments :attachments="$purchase->attachments" />
                 </div>
             </div>
         </div>
