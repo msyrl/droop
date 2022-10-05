@@ -73,22 +73,6 @@
                             </dl>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ __('Information') }}</h3>
-                        </div>
-                        <div class="card-body">
-                            <dl>
-                                <dt>{{ __('Name') }}</dt>
-                                <dd>{{ $purchase->name }}</dd>
-                                <dt>{{ __('User') }}</dt>
-                                <dd>
-                                    <div>{{ $purchase->user->name }}</div>
-                                    <div>{{ $purchase->user->email }}</div>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
                     <x-card-sales-order-information :salesOrder="$purchase" />
                     <x-card-sales-order-attachments :attachments="$purchase->attachments" />
                 </div>
