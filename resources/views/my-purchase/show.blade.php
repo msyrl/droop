@@ -69,9 +69,6 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ __('Statuses') }}</h3>
-                        </div>
                         <div class="card-body">
                             <dl>
                                 <dt>{{ __('Status') }}</dt>
