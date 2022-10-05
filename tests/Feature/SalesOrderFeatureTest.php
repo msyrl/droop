@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\PermissionEnum;
+use App\Enums\SalesOrderStatusEnum;
 use App\Models\Product;
 use App\Models\SalesOrder;
 use App\Models\SalesOrderLineItem;
@@ -87,6 +88,41 @@ class SalesOrderFeatureTest extends TestCase
             $salesOrder->lineItems[0]->formatted_price,
             $salesOrder->lineItems[0]->formatted_quantity,
             $salesOrder->lineItems[0]->formatted_total_price,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessUpdateSalesOrder(): void
+    {
+        /** @var SalesOrder */
+        $salesOrder = SalesOrder::factory()
+            ->for(User::factory())
+            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->create([
+                'status' => SalesOrderStatusEnum::waiting(),
+                'paid' => false,
+            ]);
+
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::view_sales_orders())
+            ->build();
+        $response = $this->actingAs($user)->put('/sales-orders/' . $salesOrder->id, [
+            'total_additional_charges_price' => 1000,
+            'status' => SalesOrderStatusEnum::processing(),
+            'paid' => true,
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('sales_orders', [
+            'id' => $salesOrder->id,
+            'status' => SalesOrderStatusEnum::processing(),
+            'paid' => true,
+            'total_additional_charges_price' => 1000,
+            'total_price' => $salesOrder->total_price + 1000,
         ]);
     }
 }

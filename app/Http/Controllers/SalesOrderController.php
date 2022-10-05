@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Builders\PaginatorBuilder;
+use App\Http\Requests\SalesOrderUpdateRequest;
 use App\Models\SalesOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -52,5 +53,24 @@ class SalesOrderController extends Controller
         return Response::view('sales-order.show', [
             'salesOrder' => $salesOrder,
         ]);
+    }
+
+    /**
+     * @param SalesOrderUpdateRequest $request
+     * @param SalesOrder $salesOrder
+     * @return \Illuminate\Http\Response
+     */
+    public function update(SalesOrderUpdateRequest $request, SalesOrder $salesOrder)
+    {
+        $salesOrder->update(
+            $request->validated() + [
+                'total_price' => $salesOrder->total_line_items_price + $request->get('total_additional_charges_price'),
+            ],
+        );
+
+        return Response::redirectTo('/sales-orders/' . $salesOrder->id)
+            ->with('success', __('crud.updated', [
+                'resource' => 'sales order',
+            ]));
     }
 }
