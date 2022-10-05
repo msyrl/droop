@@ -116,6 +116,8 @@ Table sales_orders {
     paid boolean [not null, default: false]
     name varchar [not null]
     quantity bigint [not null, unsigned, default: 0]
+    total_line_items_price bigint [not null, unsigned, default: 0]
+    total_additional_charge bigint [not null, unsigned, default: 0]
     total_price bigint [not null, unsigned, default: 0]
 }
 
