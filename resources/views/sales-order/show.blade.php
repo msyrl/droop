@@ -52,6 +52,22 @@
                                 <div class="col">{{ __('Quantity') }}</div>
                                 <div class="col-auto ml-auto">{{ $salesOrder->formatted_quantity }}</div>
                             </div>
+                            <div class="row mb-2">
+                                <div class="col">{{ __('Line items') }}</div>
+                                <div class="col-auto ml-auto">{{ $salesOrder->formatted_total_line_items_price }}</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col">{{ __('Additional') }}</div>
+                                <div class="col-auto ml-auto">
+                                    <input
+                                        type="number"
+                                        name="total_additional_price"
+                                        class="form-control text-right"
+                                        min="0"
+                                        value="{{ $salesOrder->total_additional_price }}"
+                                    />
+                                </div>
+                            </div>
                             <div class="row text-bold">
                                 <div class="col">{{ __('Total') }}</div>
                                 <div class="col-auto ml-auto">{{ $salesOrder->formatted_total_price }}</div>

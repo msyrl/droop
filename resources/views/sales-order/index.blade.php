@@ -87,6 +87,34 @@
                                             >{{ __('Quantity descending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
+                                                    'sort' => 'total_line_items_price',
+                                                    'direction' => 'asc',
+                                                ]) }}"
+                                                class="dropdown-item {{ Request::get('sort') == 'total_line_items_price' && Request::get('direction') == 'asc' ? 'active' : '' }}"
+                                            >{{ __('Total line items price ascending') }}</a>
+                                            <a
+                                                href="{{ Request::fullUrlWithQuery([
+                                                    'sort' => 'total_line_items_price',
+                                                    'direction' => 'desc',
+                                                ]) }}"
+                                                class="dropdown-item {{ Request::get('sort') == 'total_line_items_price' && Request::get('direction') == 'desc' ? 'active' : '' }}"
+                                            >{{ __('Total line items price descending') }}</a>
+                                            <a
+                                                href="{{ Request::fullUrlWithQuery([
+                                                    'sort' => 'total_additional_price',
+                                                    'direction' => 'asc',
+                                                ]) }}"
+                                                class="dropdown-item {{ Request::get('sort') == 'total_additional_price' && Request::get('direction') == 'asc' ? 'active' : '' }}"
+                                            >{{ __('Total additional price ascending') }}</a>
+                                            <a
+                                                href="{{ Request::fullUrlWithQuery([
+                                                    'sort' => 'total_additional_price',
+                                                    'direction' => 'desc',
+                                                ]) }}"
+                                                class="dropdown-item {{ Request::get('sort') == 'total_additional_price' && Request::get('direction') == 'desc' ? 'active' : '' }}"
+                                            >{{ __('Total additional price descending') }}</a>
+                                            <a
+                                                href="{{ Request::fullUrlWithQuery([
                                                     'sort' => 'total_price',
                                                     'direction' => 'asc',
                                                 ]) }}"
@@ -127,6 +155,8 @@
                                         <th>{{ __('Status') }}</th>
                                         <th>{{ __('Payment Status') }}</th>
                                         <th>{{ __('Quantity') }}</th>
+                                        <th>{{ __('Total line items price') }}</th>
+                                        <th>{{ __('Total additional price') }}</th>
                                         <th>{{ __('Total price') }}</th>
                                     </tr>
                                 </thead>
@@ -141,12 +171,18 @@
                                             <td class="align-middle">{{ $salesOrder->formatted_status }}</td>
                                             <td class="align-middle">{{ $salesOrder->formatted_paid }}</td>
                                             <td class="align-middle">{{ $salesOrder->formatted_quantity }}</td>
+                                            <td class="align-middle">
+                                                {{ $salesOrder->formatted_total_line_items_price }}
+                                            </td>
+                                            <td class="align-middle">
+                                                {{ $salesOrder->formatted_total_additional_price }}
+                                            </td>
                                             <td class="align-middle">{{ $salesOrder->formatted_total_price }}</td>
                                         </tr>
                                     @empty
                                         <tr>
                                             <td
-                                                colspan="6"
+                                                colspan="8"
                                                 class="text-center"
                                             >{{ __('Data not found') }}</td>
                                         </tr>

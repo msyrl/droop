@@ -26,6 +26,8 @@ class SalesOrder extends Model implements HasMedia
         'paid',
         'name',
         'quantity',
+        'total_line_items_price',
+        'total_additional_price',
         'total_price',
     ];
 
@@ -65,6 +67,16 @@ class SalesOrder extends Model implements HasMedia
     public function getFormattedQuantityAttribute(): string
     {
         return CurrencyHelper::format($this->quantity);
+    }
+
+    public function getFormattedTotalLineItemsPriceAttribute(): string
+    {
+        return CurrencyHelper::format($this->total_line_items_price);
+    }
+
+    public function getFormattedTotalAdditionalPriceAttribute(): string
+    {
+        return CurrencyHelper::format($this->total_additional_price);
     }
 
     public function getFormattedTotalPriceAttribute(): string
