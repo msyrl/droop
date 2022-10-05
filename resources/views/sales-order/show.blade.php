@@ -69,6 +69,9 @@
                         @csrf
                         @method('PUT')
                         <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">{{ __('Statuses') }}</h3>
+                            </div>
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="status">
@@ -114,6 +117,9 @@
                         </div>
                     </form>
                     <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ __('Information') }}</h3>
+                        </div>
                         <div class="card-body">
                             <dl>
                                 <dt>{{ __('Name') }}</dt>
@@ -123,19 +129,10 @@
                                     <div>{{ $salesOrder->user->name }}</div>
                                     <div>{{ $salesOrder->user->email }}</div>
                                 </dd>
-                                <dt>{{ __('Has attachment') }}</dt>
-                                <dd>
-                                    <div>{{ $salesOrder->formatted_has_attachment }}</div>
-                                    @if ($salesOrder->hasAttachment())
-                                        <a
-                                            href="#"
-                                            target="_blank"
-                                        >{{ __('Show attachment') }}</a>
-                                    @endif
-                                </dd>
                             </dl>
                         </div>
                     </div>
+                    <x-card-attachments :attachments="$salesOrder->attachments" />
                 </div>
             </div>
         </div>

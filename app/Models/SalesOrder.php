@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\SalesOrderStatusEnum;
 use App\Helpers\CurrencyHelper;
 use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,6 +27,10 @@ class SalesOrder extends Model implements HasMedia
         'name',
         'quantity',
         'total_price',
+    ];
+
+    protected $appends = [
+        'attachments',
     ];
 
     protected $casts = [
@@ -72,22 +77,9 @@ class SalesOrder extends Model implements HasMedia
         return $this->hasAttachment() ? __('YES') : __('NO');
     }
 
-    public function getAttachmentUrlAttribute(): string
+    public function getAttachmentsAttribute(): Collection
     {
-        return $this->getFirstMediaUrl('attachment');
-    }
-
-    public function setAttachment(UploadedFile $uploadedFile): void
-    {
-        $this->clearMediaCollection('attachment');
-        $this
-            ->addMedia($uploadedFile)
-            ->toMediaCollection('attachment');
-    }
-
-    public function hasAttachment(): bool
-    {
-        return boolval($this->getFirstMedia('attachment'));
+        return $this->getMedia('attachment');
     }
 
     public function addAttachment(UploadedFile $uploadedFile): void

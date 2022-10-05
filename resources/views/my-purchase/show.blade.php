@@ -61,6 +61,9 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ __('Statuses') }}</h3>
+                        </div>
                         <div class="card-body">
                             <dl>
                                 <dt>{{ __('Status') }}</dt>
@@ -71,6 +74,9 @@
                         </div>
                     </div>
                     <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ __('Information') }}</h3>
+                        </div>
                         <div class="card-body">
                             <dl>
                                 <dt>{{ __('Name') }}</dt>
@@ -80,19 +86,10 @@
                                     <div>{{ $purchase->user->name }}</div>
                                     <div>{{ $purchase->user->email }}</div>
                                 </dd>
-                                <dt>{{ __('Has attachment') }}</dt>
-                                <dd>
-                                    <div>{{ $purchase->formatted_has_attachment }}</div>
-                                    @if ($purchase->hasAttachment())
-                                        <a
-                                            href="#"
-                                            target="_blank"
-                                        >{{ __('Show attachment') }}</a>
-                                    @endif
-                                </dd>
                             </dl>
                         </div>
                     </div>
+                    <x-card-attachments :attachments="$purchase->attachments" />
                 </div>
             </div>
         </div>
