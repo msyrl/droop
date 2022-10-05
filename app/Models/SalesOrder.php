@@ -89,4 +89,11 @@ class SalesOrder extends Model implements HasMedia
     {
         return boolval($this->getFirstMedia('attachment'));
     }
+
+    public function addAttachment(UploadedFile $uploadedFile): void
+    {
+        $this
+            ->addMedia($uploadedFile)
+            ->toMediaCollection('attachment');
+    }
 }

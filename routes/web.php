@@ -65,4 +65,7 @@ Route::group([
     Route::post('/my/cart', [\App\Http\Controllers\MyCartController::class, 'store']);
     Route::put('/my/cart', [\App\Http\Controllers\MyCartController::class, 'update']);
     Route::delete('/my/cart', [\App\Http\Controllers\MyCartController::class, 'destroy']);
+
+    Route::get('/my/cart/checkout', [\App\Http\Controllers\MyCartCheckoutController::class, 'index']);
+    Route::post('/my/cart/checkout', [\App\Http\Controllers\MyCartCheckoutController::class, 'store']);
 });

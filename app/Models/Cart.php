@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\SalesOrderStatusEnum;
 use App\Helpers\CurrencyHelper;
 use App\Traits\HasUuid;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -103,5 +105,44 @@ class Cart extends Model
         } else {
             $this->delete();
         }
+    }
+
+    public function checkout(): SalesOrder
+    {
+        /** @var SalesOrder */
+        $salesOrder = SalesOrder::create([
+            'user_id' => $this->user_id,
+            'status' => SalesOrderStatusEnum::waiting(),
+            'paid' => false,
+            'name' => Carbon::now()->format('YmdHis'),
+        ]);
+
+        $this
+            ->lineItems
+            ->each(function (CartLineItem $cartLineItem) use ($salesOrder) {
+                /** @var Product */
+                $product = Product::findOrFail($cartLineItem->product_id);
+
+                $quantity = intval($cartLineItem->quantity);
+
+                $salesOrder->lineItems()->create([
+                    'product_id' => $product->id,
+                    'name' => $product->name,
+                    'sku' => $product->sku,
+                    'price' => $product->price,
+                    'quantity' => $quantity,
+                    'total_price' => $product->price * $quantity,
+                ]);
+
+                $cartLineItem->delete();
+            });
+
+
+        $salesOrder->quantity = $salesOrder->lineItems()->sum('quantity');
+        $salesOrder->total_price = $salesOrder->lineItems()->sum('total_price');
+        $salesOrder->save();
+        $this->delete();
+
+        return $salesOrder;
     }
 }

@@ -183,6 +183,10 @@
                                 </div>
                             </div>
                         </div>
+                        <a
+                            href="{{ url('/my/cart/checkout') }}"
+                            class="btn btn-primary"
+                        >{{ __('Checkout') }}</a>
                     @else
                         <div class="text-center">
                             <h3>{{ __('Your cart is empty') }}</h3>
