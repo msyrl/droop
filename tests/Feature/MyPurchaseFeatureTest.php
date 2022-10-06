@@ -67,10 +67,6 @@ class MyPurchaseFeatureTest extends TestCase
 
         $response->assertDontSee([
             $purchase->name,
-            $purchase->formatted_status,
-            $purchase->formatted_paid,
-            $purchase->formatted_quantity,
-            $purchase->formatted_total_price,
         ]);
     }
 
