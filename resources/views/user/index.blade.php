@@ -71,42 +71,42 @@
                                                     'direction' => 'asc',
                                                 ]) }}"
                                                 class="dropdown-item {{ Request::get('sort') == 'email' && Request::get('direction') == 'asc' ? 'active' : '' }}"
-                                            >{{ __('Email ascending') }}</a>
+                                            >{{ __('Email') }} {{ __('ascending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
                                                     'sort' => 'email',
                                                     'direction' => 'desc',
                                                 ]) }}"
                                                 class="dropdown-item {{ Request::get('sort') == 'email' && Request::get('direction') == 'desc' ? 'active' : '' }}"
-                                            >{{ __('Email descending') }}</a>
+                                            >{{ __('Email') }} {{ __('descending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
                                                     'sort' => 'name',
                                                     'direction' => 'asc',
                                                 ]) }}"
                                                 class="dropdown-item {{ Request::get('sort') == 'name' && Request::get('direction') == 'asc' ? 'active' : '' }}"
-                                            >{{ __('Name ascending') }}</a>
+                                            >{{ __('Name') }} {{ __('ascending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
                                                     'sort' => 'name',
                                                     'direction' => 'desc',
                                                 ]) }}"
                                                 class="dropdown-item {{ Request::get('sort') == 'name' && Request::get('direction') == 'desc' ? 'active' : '' }}"
-                                            >{{ __('Name descending') }}</a>
+                                            >{{ __('Name') }} {{ __('descending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
                                                     'sort' => 'created_at',
                                                     'direction' => 'asc',
                                                 ]) }}"
                                                 class="dropdown-item {{ Request::get('sort') == 'created_at' && Request::get('direction') == 'asc' ? 'active' : '' }}"
-                                            >{{ __('Date created ascending') }}</a>
+                                            >{{ __('Date created') }} {{ __('ascending') }}</a>
                                             <a
                                                 href="{{ Request::fullUrlWithQuery([
                                                     'sort' => 'created_at',
                                                     'direction' => 'desc',
                                                 ]) }}"
                                                 class="dropdown-item {{ (Request::get('sort') == 'created_at' && Request::get('direction') == 'desc') || (!Request::filled('sort') && !Request::filled('direction')) ? 'active' : '' }}"
-                                            >{{ __('Date created descending') }}</a>
+                                            >{{ __('Date created') }} {{ __('descending') }}</a>
                                         </div>
                                     </div>
                                 </div>

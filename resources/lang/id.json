@@ -69,5 +69,7 @@
     "user": "pengguna",
     "role": "peran",
     "profile": "profil",
-    "item": "barang"
+    "item": "barang",
+    "ascending": "menaik",
+    "descending": "menurun"
 }
