@@ -26,6 +26,11 @@
                     <h1 class="m-0">{{ $salesOrder->name }}</h1>
                 </div><!-- /.col -->
                 <div class="col-auto ml-auto">
+                    <button
+                        form="send-notification-sales-order"
+                        type="submit"
+                        class="btn btn-default"
+                    >{{ __('Send notification') }}</button>
                     <a
                         href="{{ url('/sales-orders/' . $salesOrder->id . '/invoice') }}"
                         target="_blank"
@@ -146,4 +151,12 @@
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+    <form
+        id="send-notification-sales-order"
+        action="{{ url('/sales-orders/' . $salesOrder->id . '/notification/send') }}"
+        method="POST"
+    >
+        @csrf
+    </form>
 </x-app>

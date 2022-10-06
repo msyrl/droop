@@ -8,7 +8,9 @@ use App\Models\Product;
 use App\Models\SalesOrder;
 use App\Models\SalesOrderLineItem;
 use App\Models\User;
+use App\Notifications\PurchaseCreated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\Builders\UserBuilder;
 use Tests\TestCase;
 
@@ -145,5 +147,31 @@ class SalesOrderFeatureTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'application/pdf');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldResendSalesOrderPurchaseCreatedNotification(): void
+    {
+        Notification::fake();
+
+        /** @var User */
+        $salesOrderUser = User::factory()->create();
+
+        /** @var SalesOrder */
+        $salesOrder = SalesOrder::factory()
+            ->for($salesOrderUser)
+            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->create();
+
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::manage_sales_orders())
+            ->build();
+
+        $this->actingAs($user)->post('/sales-orders/' . $salesOrder->id . '/notification/send');
+
+        Notification::assertSentTo($salesOrderUser, PurchaseCreated::class);
     }
 }
