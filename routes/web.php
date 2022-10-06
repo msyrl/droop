@@ -55,12 +55,14 @@ Route::group([
     Route::get('/sales-orders', [\App\Http\Controllers\SalesOrderController::class, 'index'])->can(\App\Enums\PermissionEnum::view_sales_orders());
     Route::get('/sales-orders/{salesOrder}', [\App\Http\Controllers\SalesOrderController::class, 'show'])->can(\App\Enums\PermissionEnum::view_sales_orders());
     Route::put('/sales-orders/{salesOrder}', [\App\Http\Controllers\SalesOrderController::class, 'update'])->can(\App\Enums\PermissionEnum::view_sales_orders());
+    Route::get('/sales-orders/{salesOrder}/invoice', [\App\Http\Controllers\SalesOrderInvoiceController::class, 'index'])->can(\App\Enums\PermissionEnum::view_sales_orders());
 
     Route::get('/catalogs', [\App\Http\Controllers\CatalogController::class, 'index']);
     Route::get('/catalogs/{product}', [\App\Http\Controllers\CatalogController::class, 'show']);
 
     Route::get('/my/purchases', [\App\Http\Controllers\MyPurchaseController::class, 'index']);
     Route::get('/my/purchases/{purchase}', [\App\Http\Controllers\MyPurchaseController::class, 'show']);
+    Route::get('/my/purchases/{purchaseId}/invoice', [\App\Http\Controllers\MyPurchaseInvoiceController::class, 'index']);
 
     Route::get('/my/cart', [\App\Http\Controllers\MyCartController::class, 'index']);
     Route::post('/my/cart', [\App\Http\Controllers\MyCartController::class, 'store']);

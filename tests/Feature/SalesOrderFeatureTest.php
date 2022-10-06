@@ -125,4 +125,25 @@ class SalesOrderFeatureTest extends TestCase
             'total_price' => $salesOrder->total_price + 1000,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldShowSalesOrderInvoicePageAsPdf()
+    {
+        /** @var SalesOrder */
+        $salesOrder = SalesOrder::factory()
+            ->for(User::factory())
+            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->create();
+
+        /** @var User */
+        $user = UserBuilder::make()
+            ->addPermission(PermissionEnum::view_sales_orders())
+            ->build();
+        $response = $this->actingAs($user)->get('/sales-orders/' . $salesOrder->id . '/invoice');
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'application/pdf');
+    }
 }

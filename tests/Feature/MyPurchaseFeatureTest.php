@@ -104,4 +104,41 @@ class MyPurchaseFeatureTest extends TestCase
             $purchase->lineItems[0]->formatted_total_price,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function shouldShowMyPurchaseInvoicePageAsPdf()
+    {
+        /** @var User */
+        $user = UserBuilder::make()->build();
+
+        /** @var SalesOrder */
+        $purchase = SalesOrder::factory()
+            ->for($user)
+            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->create();
+        $response = $this->actingAs($user)->get('/my/purchases/' . $purchase->id . '/invoice');
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'application/pdf');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotShowOtherUserPurchaseInvoice()
+    {
+        /** @var SalesOrder */
+        $purchase = SalesOrder::factory()
+            ->for(User::factory())
+            ->has(SalesOrderLineItem::factory(), 'lineItems')
+            ->create();
+
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        $response = $this->actingAs($user)->get('/my/purchases/' . $purchase->id . '/invoice');
+
+        $response->assertNotFound();
+    }
 }

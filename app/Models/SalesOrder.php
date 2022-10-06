@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -92,6 +93,11 @@ class SalesOrder extends Model implements HasMedia
     public function getAttachmentsAttribute(): Collection
     {
         return $this->getMedia('attachment');
+    }
+
+    public function getDueDateAttribute(): Carbon
+    {
+        return $this->created_at->addDays(7);
     }
 
     public function addAttachment(UploadedFile $uploadedFile): void
