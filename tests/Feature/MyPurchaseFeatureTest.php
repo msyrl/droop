@@ -104,6 +104,24 @@ class MyPurchaseFeatureTest extends TestCase
     /**
      * @test
      */
+    public function shouldNotShowOtherUserPurchaseOnPurchaseShowPage(): void
+    {
+        /** @var SalesOrder */
+        $purchase = SalesOrder::factory()
+            ->for(User::factory())
+            ->has(SalesOrderLineItem::factory(2), 'lineItems')
+            ->create();
+
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        $response = $this->actingAs($user)->get('/my/purchases/' . $purchase->id);
+
+        $response->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowMyPurchaseInvoicePageAsPdf()
     {
         /** @var User */

@@ -40,12 +40,17 @@ class MyPurchaseController extends Controller
     }
 
     /**
-     * @param SalesOrder $purchases
+     * @param string $purchaseId
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function show(SalesOrder $purchase)
+    public function show(string $purchaseId, Request $request)
     {
-        $purchase->load(['user', 'lineItems.product']);
+        /** @var SalesOrder */
+        $purchase = SalesOrder::with(['user', 'lineItems'])
+            ->where('user_id', $request->user()->id)
+            ->where('id', $purchaseId)
+            ->firstOrFail();
 
         return Response::view('my-purchase.show', [
             'purchase' => $purchase,
