@@ -1,0 +1,1 @@
+<x-invoice :salesOrder="$purchase" />

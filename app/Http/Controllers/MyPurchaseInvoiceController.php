@@ -16,13 +16,13 @@ class MyPurchaseInvoiceController extends Controller
     public function index(string $purchaseId, Request $request)
     {
         /** @var SalesOrder */
-        $salesOrder = SalesOrder::with(['lineItems'])
+        $purchase = SalesOrder::with(['lineItems'])
             ->where('user_id', $request->user()->id)
             ->where('id', $purchaseId)
             ->firstOrFail();
 
-        return Pdf::loadView('sales-order.invoice.index', [
-            'salesOrder' => $salesOrder,
-        ])->stream("invoice-{$salesOrder->name}.pdf");
+        return Pdf::loadView('my-purchase.invoice.index', [
+            'purchase' => $purchase,
+        ])->stream("invoice-{$purchase->name}.pdf");
     }
 }
