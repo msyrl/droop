@@ -63,7 +63,7 @@
                 href="#"
             >
                 <img
-                    src="https://via.placeholder.com/50"
+                    src="{{ \App\Helpers\GravatarHelper::generateUrl(Request::user()->name) }}"
                     class="img-circle"
                     alt="User"
                     height="100%"

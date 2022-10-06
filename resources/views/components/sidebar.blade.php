@@ -6,7 +6,7 @@
         class="brand-link"
     >
         <img
-            src="https://via.placeholder.com/60"
+            src="/img/logo.png"
             class="brand-image img-circle"
             style="opacity: .8"
         >

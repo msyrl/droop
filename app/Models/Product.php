@@ -33,7 +33,7 @@ class Product extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('featured_image')
-            ->useFallbackUrl('https://via.placeholder.com/500');
+            ->useFallbackUrl('/img/logo-500.png');
     }
 
     public function getFormattedPriceAttribute(): string
