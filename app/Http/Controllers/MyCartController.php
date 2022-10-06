@@ -52,7 +52,7 @@ class MyCartController extends Controller
 
         return Redirect::back()
             ->with('success', __('crud.added', [
-                'resource' => 'item',
+                'resource' => __('item'),
             ]));
     }
 
@@ -79,7 +79,7 @@ class MyCartController extends Controller
 
         return Redirect::back()
             ->with('success', __('crud.updated', [
-                'resource' => 'item',
+                'resource' => __('item'),
             ]));
     }
 
@@ -102,7 +102,7 @@ class MyCartController extends Controller
 
         return Redirect::back()
             ->with('success', __('crud.deleted', [
-                'resource' => 'item',
+                'resource' => __('item'),
             ]));
     }
 }

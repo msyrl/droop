@@ -68,5 +68,6 @@
     "sales order": "penjualan",
     "user": "pengguna",
     "role": "peran",
-    "profile": "profil"
+    "profile": "profil",
+    "item": "barang"
 }
