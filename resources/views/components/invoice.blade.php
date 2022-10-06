@@ -67,7 +67,7 @@
             border-bottom: none;
         }
 
-        .invoice-box table tr.total td:nth-child(3) {
+        .invoice-box table tr.total td:nth-child(2) {
             border-top: 2px solid #eee;
             font-weight: bold;
         }
@@ -130,7 +130,7 @@
             <tr class="heading">
                 <td>{{ __('Items') }}</td>
                 <td>{{ __('Price') }}</td>
-                <td width="200px">{{ __('Total') }}</td>
+                <td width="250px">{{ __('Total') }}</td>
             </tr>
             @foreach ($salesOrder->lineItems as $lineItem)
                 <tr class="item @if ($loop->last) last @endif">
@@ -143,18 +143,21 @@
                 </tr>
             @endforeach
             <tr class="total">
-                <td></td>
-                <td></td>
+                <td colspan="2">
+                    {{ __('Bank') }}: {{ Config::get('company.account.bank') }}
+                </td>
                 <td>{{ __('Subtotal') }}: {{ $salesOrder->formatted_total_line_items_price }}</td>
             </tr>
             <tr class="total">
-                <td></td>
-                <td></td>
+                <td colspan="2">
+                    {{ __('Acouunt number') }}: {{ Config::get('company.account.number') }}
+                </td>
                 <td>{{ __('Additional charges') }}: {{ $salesOrder->formatted_total_additional_charges_price }}</td>
             </tr>
             <tr class="total">
-                <td></td>
-                <td></td>
+                <td colspan="2">
+                    {{ __('Account name') }}: {{ Config::get('company.account.name') }}
+                </td>
                 <td>{{ __('Total') }}: {{ $salesOrder->formatted_total_price }}</td>
             </tr>
         </table>
