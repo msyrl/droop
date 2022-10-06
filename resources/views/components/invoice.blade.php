@@ -16,7 +16,6 @@
             line-height: 24px;
             font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
             color: #555;
-            white-space: nowrap;
         }
 
         .invoice-box table {
@@ -61,6 +60,7 @@
 
         .invoice-box table tr.item td {
             border-bottom: 1px solid #eee;
+            white-space: nowrap;
         }
 
         .invoice-box table tr.item.last td {
@@ -114,10 +114,10 @@
                 <td colspan="3">
                     <table>
                         <tr>
-                            <td>
-                                Sparksuite, Inc.<br />
-                                12345 Sunny Road<br />
-                                Sunnyville, CA 12345
+                            <td width="50%">
+                                {{ Config::get('company.name') }}<br />
+                                {{ Config::get('company.address') }}<br />
+                                {{ config::get('company.phone') }}
                             </td>
                             <td>
                                 {{ $salesOrder->user->name }}<br />
