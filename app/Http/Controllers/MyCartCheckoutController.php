@@ -51,7 +51,7 @@ class MyCartCheckoutController extends Controller
 
         return Response::redirectTo('/my/purchases/' . $salesOrder->id)
             ->with('success', __('crud.created', [
-                'resource' => 'purchase',
+                'resource' => __('purchase'),
             ]));
     }
 }

@@ -70,7 +70,7 @@ class RoleController extends Controller
 
         return Response::redirectTo("/roles/{$role->id}")
             ->with('success', __('crud.created', [
-                'resource' => 'role',
+                'resource' => __('role'),
             ]));
     }
 
@@ -113,7 +113,7 @@ class RoleController extends Controller
 
         return Response::redirectTo("/roles/{$role->id}")
             ->with('success', __('crud.updated', [
-                'resource' => 'role',
+                'resource' => __('role'),
             ]));
     }
 
@@ -127,7 +127,7 @@ class RoleController extends Controller
 
         return Response::redirectTo('/roles')
             ->with('success', __('crud.deleted', [
-                'resource' => 'role',
+                'resource' => __('role'),
             ]));
     }
 }

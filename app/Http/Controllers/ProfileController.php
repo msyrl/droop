@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
         return Response::redirectTo('/profile')
             ->with('success', __('crud.updated', [
-                'resource' => 'profile',
+                'resource' => __('profile'),
             ]));
     }
 }

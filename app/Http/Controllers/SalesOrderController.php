@@ -70,7 +70,7 @@ class SalesOrderController extends Controller
 
         return Response::redirectTo('/sales-orders/' . $salesOrder->id)
             ->with('success', __('crud.updated', [
-                'resource' => 'sales order',
+                'resource' => __('sales order'),
             ]));
     }
 }

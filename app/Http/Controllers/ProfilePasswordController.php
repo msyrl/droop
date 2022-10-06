@@ -31,7 +31,7 @@ class ProfilePasswordController extends Controller
 
         return Response::redirectTo('/profile/password')
             ->with('success', __('crud.updated', [
-                'resource' => 'password',
+                'resource' => __('password'),
             ]));
     }
 }

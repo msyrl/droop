@@ -89,7 +89,7 @@ class ProductController extends Controller
 
         return Response::redirectTo('/products/' . $product->id)
             ->with('success', __('crud.created', [
-                'resource' => 'product',
+                'resource' => __('product'),
             ]));
     }
 
@@ -147,7 +147,7 @@ class ProductController extends Controller
 
         return Response::redirectTo('/products/' . $product->id)
             ->with('success', __('crud.updated', [
-                'resource' => 'product',
+                'resource' => __('product'),
             ]));
     }
 
@@ -163,7 +163,7 @@ class ProductController extends Controller
 
         return Response::redirectTo('/products')
             ->with('success', __('crud.deleted', [
-                'resource' => 'product',
+                'resource' => __('product'),
             ]));
     }
 }

@@ -91,7 +91,9 @@ class UserController extends Controller
         }
 
         return Response::redirectTo('/users/create')
-            ->with('success', __('crud.created', ['resource' => 'user']));
+            ->with('success', __('crud.created', [
+                'resource' => __('user')
+            ]));
     }
 
     /**
@@ -130,7 +132,7 @@ class UserController extends Controller
 
         return Response::redirectTo("/users/{$user->id}")
             ->with('success', __('crud.updated', [
-                'resource' => 'user',
+                'resource' => __('user'),
             ]));
     }
 
@@ -144,7 +146,7 @@ class UserController extends Controller
 
         return Response::redirectTo('/users')
             ->with('success', __('crud.deleted', [
-                'resource' => 'user',
+                'resource' => __('user'),
             ]));
     }
 }

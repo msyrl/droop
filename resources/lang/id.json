@@ -62,5 +62,11 @@
     "Register a new membership": "Daftar keanggotaan baru",
     "I already have a membership": "Saya sudah menjadi anggota",
     "Register": "Daftar",
-    "Sign out": "Keluar"
+    "Sign out": "Keluar",
+    "purchase": "pembelian",
+    "product": "produk",
+    "sales order": "penjualan",
+    "user": "pengguna",
+    "role": "peran",
+    "profile": "profil"
 }
