@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Lang;
 
 class PurchaseCreated extends Notification
 {
@@ -40,22 +41,27 @@ class PurchaseCreated extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed|null  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable = null)
     {
         $pdf = Pdf::loadView('my-purchase.invoice.index', [
             'purchase' => $this->salesOrder,
         ]);
 
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!')
             ->attachData($pdf->output(), "invoice-{$this->salesOrder->name}.pdf", [
                 'mime' => 'application/pdf',
-            ]);
+            ])
+            ->subject(Lang::get('Purchase :name Successfully Created', [
+                'name' => $this->salesOrder->name,
+            ]))
+            ->greeting(Lang::get('Hello :name,', [
+                'name' => $this->salesOrder->user->name,
+            ]))
+            ->line(Lang::get('You just created purchase to our platform. Please check attachment below to get the details.'))
+            ->line(Lang::get('Thank you for using our platform!'));
     }
 
     /**
