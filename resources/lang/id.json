@@ -71,5 +71,7 @@
     "profile": "profil",
     "item": "barang",
     "ascending": "menaik",
-    "descending": "menurun"
+    "descending": "menurun",
+    "Request new password": "Meminta kata sandi baru",
+    "Change password": "Ubah kata sandi"
 }
