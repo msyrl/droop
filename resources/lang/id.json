@@ -43,6 +43,7 @@
     "No": "Tidak",
     "Password": "Kata sandi",
     "Password Confirmation": "Kata sandi konfirmasi",
+    "Password confirmation": "Kata sandi konfirmasi",
     "New product": "Produk baru",
     "New user": "Pengguna baru",
     "New role": "Peran baru",
@@ -53,5 +54,13 @@
     "Current Password": "Kata sandi saat ini",
     "Items": "Barang",
     "Created": "Dibuat",
-    "Due": "Jatuh tempo"
+    "Due": "Jatuh tempo",
+    "Sign In": "Masuk",
+    "Sign in to start your session": "Masuk untuk memulai sesi anda",
+    "Remember Me": "Ingat saya",
+    "I forgot my password": "Saya lupa kata sandi",
+    "Register a new membership": "Daftar keanggotaan baru",
+    "I already have a membership": "Saya sudah menjadi anggota",
+    "Register": "Daftar",
+    "Sign out": "Keluar"
 }
