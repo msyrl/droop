@@ -191,7 +191,7 @@
                         <div class="text-center">
                             <h3>{{ __('Your cart is empty') }}</h3>
                             <p>{!! __('Go to :link page', [
-                                'link' => '<a href="' . url('/catalogs') . '">catalog</a>',
+                                'link' => '<a href="' . url('/catalogs') . '">' . __('catalog') . '</a>',
                             ]) !!}</p>
                         </div>
                     @endif
