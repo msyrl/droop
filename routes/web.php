@@ -13,12 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/auth/signin', 'auth.signin')->middleware('guest');
+Route::view('/auth/signin', 'auth.signin')->middleware('guest')->name('login');
 Route::post('/auth/signin', [\App\Http\Controllers\AuthController::class, 'signin'])->middleware('guest');
 Route::post('/auth/signout', [\App\Http\Controllers\AuthController::class, 'signout'])->middleware('auth');
 
 Route::view('/auth/register', 'auth.register')->middleware('guest');
 Route::post('/auth/register', [\App\Http\Controllers\AuthController::class, 'register'])->middleware('guest');
+
+Route::get('forgot-password', [\App\Http\Controllers\PasswordResetLinkController::class, 'create'])->name('password.request')->middleware('guest');
+Route::post('forgot-password', [\App\Http\Controllers\PasswordResetLinkController::class, 'store'])->name('password.email')->middleware('guest');
+Route::get('reset-password/{token}', [\App\Http\Controllers\NewPasswordController::class, 'create'])->name('password.reset')->middleware('guest');
+Route::post('reset-password', [\App\Http\Controllers\NewPasswordController::class, 'store'])->name('password.update')->middleware('guest');
 
 Route::group([
     'middleware' => ['auth']
