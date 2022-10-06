@@ -25,6 +25,13 @@
                 <div class="col-auto">
                     <h1 class="m-0">{{ $purchase->name }}</h1>
                 </div><!-- /.col -->
+                <div class="col-auto ml-auto">
+                    <a
+                        href="{{ url('/my/purchases/' . $purchase->id . '/invoice') }}"
+                        target="_blank"
+                        class="btn btn-default"
+                    >{{ __('Print as invoice') }}</a>
+                </div>
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -58,7 +65,8 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col">{{ __('Additional charges') }}</div>
-                                <div class="col-auto ml-auto">{{ $purchase->formatted_total_additional_charges_price }}</div>
+                                <div class="col-auto ml-auto">{{ $purchase->formatted_total_additional_charges_price }}
+                                </div>
                             </div>
                             <div class="row text-bold">
                                 <div class="col">{{ __('Total') }}</div>

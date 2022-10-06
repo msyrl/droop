@@ -26,6 +26,11 @@
                     <h1 class="m-0">{{ $salesOrder->name }}</h1>
                 </div><!-- /.col -->
                 <div class="col-auto ml-auto">
+                    <a
+                        href="{{ url('/sales-orders/' . $salesOrder->id . '/invoice') }}"
+                        target="_blank"
+                        class="btn btn-default"
+                    >{{ __('Print as invoice') }}</a>
                     <button
                         form="update-sales-order"
                         type="submit"
