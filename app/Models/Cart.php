@@ -22,6 +22,8 @@ class Cart extends Model
         'total_price',
     ];
 
+    private int $totalAttachment;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -140,10 +142,18 @@ class Cart extends Model
 
         $salesOrder->quantity = $salesOrder->lineItems()->sum('quantity');
         $salesOrder->total_line_items_price = $salesOrder->lineItems()->sum('total_price');
+        $salesOrder->total_additional_charges_price = SalesOrder::getDefaultAdditionalCharge() * $this->totalAttachment;
         $salesOrder->total_price = $salesOrder->total_line_items_price + $salesOrder->total_additional_charges_price;
         $salesOrder->save();
         $this->delete();
 
         return $salesOrder;
+    }
+
+    public function setTotalAttachment(int $totalAttachment): Cart
+    {
+        $this->totalAttachment = $totalAttachment;
+
+        return $this;
     }
 }

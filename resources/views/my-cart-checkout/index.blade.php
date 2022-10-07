@@ -32,26 +32,16 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="col">{{ __('Quantity') }}</div>
-                                <div class="col-auto ml-auto">{{ $cart->formatted_quantity }}</div>
-                            </div>
-                            <div class="row text-bold">
-                                <div class="col">{{ __('Total') }}</div>
-                                <div class="col-auto ml-auto">{{ $cart->formatted_total_price }}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <form
-                        action="{{ url('/my/cart/checkout') }}"
-                        method="POST"
-                        enctype="multipart/form-data"
-                    >
+        <form
+            action="{{ url('/my/cart/checkout') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            id="cart-checkout-module"
+        >
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+
                         @csrf
                         <div class="card">
                             <div class="card-header">
@@ -65,19 +55,89 @@
                                     type="file"
                                     name="attachments[]"
                                     class="form-control-file"
+                                    id="attachments"
                                     accept="application/pdf"
                                     multiple
                                 />
                             </div>
                         </div>
+                        <div class="card">
+                            <div
+                                class="card-body"
+                                id="cart-summary"
+                            ></div>
+                            <script type="text/html" id="cart-summary-tmpl">
+                                <div class="row mb-2">
+                                    <div class="col">{{ __('Quantity') }}</div>
+                                    <div class="col-auto ml-auto" id="cart_quantity"><%= cartQuantity.toLocaleString('id') %></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">{{ __('Line items') }}</div>
+                                    <div class="col-auto ml-auto" id="cart_line_items_price"><%= cartLineItemsPrice.toLocaleString('id') %></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col">{{ __('Additional charges') }}</div>
+                                    <div class="col-auto ml-auto" id="cart_additional_charges_price"><%= cartAdditionalChargesPrice.toLocaleString('id') %></div>
+                                </div>
+                                <div class="row text-bold">
+                                    <div class="col">{{ __('Total') }}</div>
+                                    <div class="col-auto ml-auto" id="cart_total_price"><%= cartTotalPrice.toLocaleString('id') %></div>
+                                </div>
+                            </script>
+                        </div>
                         <button
                             type="submit"
                             class="btn btn-primary"
                         >{{ __('Proceed') }}</button>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
+        <script>
+            var CartCheckout = (function() {
+                var $el = $('#cart-checkout-module');
+                var $attachments = $el.find('#attachments');
+                var $cartSummary = $el.find('#cart-summary');
+
+                var cartSummaryTmpl = $el.find('#cart-summary-tmpl').html();
+
+                var defaultAdditionalPrice = {{ \App\Models\SalesOrder::getDefaultAdditionalCharge() }};
+                var totalAttachment = 0;
+                var cartQuantity = {{ $cart->quantity }};
+                var cartLineItemsPrice = {{ $cart->total_price }};
+                var cartAdditionalChargesPrice = 0;
+                var cartTotalPrice = 0;
+
+                $attachments.on('change', function() {
+                    totalAttachment = this.files.length;
+
+                    calculate();
+                    render();
+                });
+
+                function calculate() {
+                    cartAdditionalChargesPrice = totalAttachment * defaultAdditionalPrice;
+                    cartTotalPrice = cartLineItemsPrice + cartAdditionalChargesPrice;
+                }
+
+                function render() {
+                    $cartSummary.html(
+                        ejs.render(cartSummaryTmpl, {
+                            cartQuantity: cartQuantity,
+                            cartLineItemsPrice: cartLineItemsPrice,
+                            cartAdditionalChargesPrice: cartAdditionalChargesPrice,
+                            cartTotalPrice: cartTotalPrice,
+                        })
+                    )
+                }
+
+                function init() {
+                    render();
+                }
+
+                init();
+            })();
+        </script>
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->

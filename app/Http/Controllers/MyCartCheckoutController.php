@@ -41,10 +41,16 @@ class MyCartCheckoutController extends Controller
                 ->where('user_id', $request->user()->id)
                 ->firstOrFail();
 
-            /** @var SalesOrder */
-            $salesOrder = $cart->checkout();
+            $attachments = $request->file('attachments');
 
-            foreach ($request->file('attachments') as $attachment) {
+            /** @var SalesOrder */
+            $salesOrder = $cart
+                ->setTotalAttachment(
+                    count($attachments)
+                )
+                ->checkout();
+
+            foreach ($attachments as $attachment) {
                 $salesOrder->addAttachment($attachment);
             }
 

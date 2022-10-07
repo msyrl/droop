@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\SalesOrderStatusEnum;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\SalesOrder;
 use App\Models\User;
 use App\Notifications\PurchaseCreated;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -51,30 +52,6 @@ class MyCartCheckoutFeatureTest extends TestCase
     /**
      * @test
      */
-    public function shouldContainCartSummaryOnCartCheckoutPage()
-    {
-        /** @var User */
-        $user = UserBuilder::make()->build();
-        /** @var Product */
-        $product = Product::factory()->create();
-        /** @var Cart */
-        $cart = Cart::factory()
-            ->for($user)
-            ->create();
-
-        $cart->addLineItem($product, 1);
-
-        $response = $this->actingAs($user)->get('/my/cart/checkout');
-
-        $response->assertSee([
-            $cart->formatted_quantity,
-            $cart->formatted_total_price,
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function shouldSuccessCheckoutCart(): void
     {
         Storage::fake();
@@ -111,7 +88,9 @@ class MyCartCheckoutFeatureTest extends TestCase
             'status' => SalesOrderStatusEnum::waiting(),
             'paid' => false,
             'quantity' => $cart->quantity,
-            'total_price' => $cart->total_price,
+            'total_line_items_price' => $product->price,
+            'total_additional_charges_price' => SalesOrder::getDefaultAdditionalCharge(),
+            'total_price' => $cart->total_price + SalesOrder::getDefaultAdditionalCharge(),
         ]);
 
         $this->assertDatabaseHas('sales_order_line_items', [
@@ -125,6 +104,69 @@ class MyCartCheckoutFeatureTest extends TestCase
 
         $this->assertDatabaseHas('media', [
             'file_name' => 'attachment.pdf',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessCheckoutCartAndCalculateTotalAdditionalChargesPriceBasedOnTotalAttachments(): void
+    {
+        Storage::fake();
+
+        /** @var User */
+        $user = UserBuilder::make()->build();
+        /** @var Product */
+        $product = Product::factory()->create();
+        /** @var Cart */
+        $cart = Cart::factory()
+            ->for($user)
+            ->create();
+
+        $cart->addLineItem($product, 1);
+
+        $response = $this->actingAs($user)->post('/my/cart/checkout', [
+            'attachments' => [
+                UploadedFile::fake()->create('attachment1.pdf'),
+                UploadedFile::fake()->create('attachment2.pdf'),
+            ],
+        ]);
+
+        $response->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseMissing('carts', [
+            'id' => $cart->id,
+        ]);
+
+        $this->assertDatabaseMissing('cart_line_items', [
+            'cart_id' => $cart->id,
+        ]);
+
+        $this->assertDatabaseHas('sales_orders', [
+            'user_id' => $user->id,
+            'status' => SalesOrderStatusEnum::waiting(),
+            'paid' => false,
+            'quantity' => $cart->quantity,
+            'total_line_items_price' => $product->price,
+            'total_additional_charges_price' => SalesOrder::getDefaultAdditionalCharge() * 2,
+            'total_price' => $cart->total_price + SalesOrder::getDefaultAdditionalCharge() * 2,
+        ]);
+
+        $this->assertDatabaseHas('sales_order_line_items', [
+            'product_id' => $product->id,
+            'name' => $product->name,
+            'sku' => $product->sku,
+            'price' => $product->price,
+            'quantity' => 1,
+            'total_price' => $product->price,
+        ]);
+
+        $this->assertDatabaseHas('media', [
+            'file_name' => 'attachment1.pdf',
+        ]);
+
+        $this->assertDatabaseHas('media', [
+            'file_name' => 'attachment2.pdf',
         ]);
     }
 

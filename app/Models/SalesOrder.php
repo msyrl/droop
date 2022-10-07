@@ -106,4 +106,9 @@ class SalesOrder extends Model implements HasMedia
             ->addMedia($uploadedFile)
             ->toMediaCollection('attachment');
     }
+
+    public static function getDefaultAdditionalCharge(): int
+    {
+        return 1000;
+    }
 }
