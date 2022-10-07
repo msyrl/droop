@@ -67,9 +67,14 @@
             border-bottom: none;
         }
 
-        .invoice-box table tr.total td:nth-child(2) {
+        .invoice-box table tr td.total {
             border-top: 2px solid #eee;
             font-weight: bold;
+            text-align: right;
+        }
+
+        .invoice-box table tr td.payment-method {
+            vertical-align: bottom;
         }
 
         @media only screen and (max-width: 600px) {
@@ -142,23 +147,24 @@
                     <td>{{ $lineItem->formatted_total_price }}</td>
                 </tr>
             @endforeach
-            <tr class="total">
-                <td colspan="2">
-                    {{ __('Bank') }}: {{ Config::get('company.account.bank') }}
+            <tr>
+                <td
+                    colspan="2"
+                    rowspan="3"
+                    class="payment-method"
+                >
+                    <div>{{ __('For payment please transfer to:') }}</div>
+                    <div style="font-weight: bold;">{{ Config::get('company.account.bank') }}
+                        {{ Config::get('company.account.number') }} | {{ Config::get('company.account.name') }}</div>
                 </td>
-                <td>{{ __('Subtotal') }}: {{ $salesOrder->formatted_total_line_items_price }}</td>
+                <td class="total">{{ __('Subtotal') }}: {{ $salesOrder->formatted_total_line_items_price }}</td>
             </tr>
-            <tr class="total">
-                <td colspan="2">
-                    {{ __('Acouunt number') }}: {{ Config::get('company.account.number') }}
-                </td>
-                <td>{{ __('Additional charges') }}: {{ $salesOrder->formatted_total_additional_charges_price }}</td>
+            <tr>
+                <td class="total">{{ __('Additional charges') }}:
+                    {{ $salesOrder->formatted_total_additional_charges_price }}</td>
             </tr>
-            <tr class="total">
-                <td colspan="2">
-                    {{ __('Account name') }}: {{ Config::get('company.account.name') }}
-                </td>
-                <td>{{ __('Total') }}: {{ $salesOrder->formatted_total_price }}</td>
+            <tr>
+                <td class="total">{{ __('Total') }}: {{ $salesOrder->formatted_total_price }}</td>
             </tr>
         </table>
     </div>
