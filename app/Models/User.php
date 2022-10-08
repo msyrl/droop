@@ -78,4 +78,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $this->cart->lineItems->count();
     }
+
+    public function generateVerificationHash(): string
+    {
+        return hash('sha256', $this->getEmailForVerification());
+    }
+
+    public function checkVerificationHash(string $hash): bool
+    {
+        return hash_equals(
+            $hash,
+            $this->generateVerificationHash()
+        );
+    }
 }

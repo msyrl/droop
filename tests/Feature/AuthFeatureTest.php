@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class AuthFeatureTest extends TestCase
@@ -77,6 +79,8 @@ class AuthFeatureTest extends TestCase
      */
     public function shouldSuccessRegisterAndRedirectToRootPage(): void
     {
+        Notification::fake();
+
         $response = $this->post('/auth/register', [
             'name' => 'John Doe',
             'email' => 'johndoe@example.com',
@@ -86,6 +90,11 @@ class AuthFeatureTest extends TestCase
 
         $response->assertSessionDoesntHaveErrors();
         $response->assertRedirect('/');
+
+        /** @var User */
+        $registeredUser = User::query()->where('email', 'johndoe@example.com')->first();
+
+        Notification::assertSentTo($registeredUser, VerifyEmail::class);
     }
 
     /**

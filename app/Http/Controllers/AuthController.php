@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthRegisterRequest;
 use App\Http\Requests\AuthSigninRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -74,6 +75,8 @@ class AuthController
         $user = User::create(
             $authRegisterRequest->validated()
         );
+
+        event(new Registered($user));
 
         return Response::redirectTo('/')
             ->with('success', __('Successfully registered, please check your email for verification.'));
