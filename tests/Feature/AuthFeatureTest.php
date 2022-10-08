@@ -79,7 +79,7 @@ class AuthFeatureTest extends TestCase
     /**
      * @test
      */
-    public function shouldSuccessRegisterAndRedirectToRootPage(): void
+    public function shouldSuccessRegisterAndRedirectToSigninPage(): void
     {
         Notification::fake();
 
@@ -91,7 +91,7 @@ class AuthFeatureTest extends TestCase
         ]);
 
         $response->assertSessionDoesntHaveErrors();
-        $response->assertRedirect('/');
+        $response->assertRedirect('/auth/signin');
 
         /** @var User */
         $registeredUser = User::query()->where('email', 'johndoe@example.com')->first();

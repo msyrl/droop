@@ -79,7 +79,7 @@ class AuthController
 
         event(new Registered($user));
 
-        return Response::redirectTo('/')
+        return Response::redirectTo('/auth/signin')
             ->with('success', __('Successfully registered, please check your email for verification.'));
     }
 
