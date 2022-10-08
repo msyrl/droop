@@ -90,5 +90,11 @@
     "Email sent": "Email terkirim",
     "Send notification": "Kirim notifikasi",
     "For payment please transfer to:": "Untuk pembayaran silahkan transfer ke:",
-    "Successfully registered, please check your email for verification.": "Registrasi berhasil, silahkan cek email anda untuk verifikasi."
+    "Successfully registered, please check your email for verification.": "Registrasi berhasil, silahkan cek email anda untuk verifikasi.",
+    "Resend verify notification": "Kirim ulang notifikasi verifikasi",
+    "Resend": "Kirim ulang",
+    "Success resend verify notification": "Berhasil kirim ulang notifikasi verifikasi",
+    "Verify Email Address": "Verifikasi Alamat Email",
+    "Please click the button below to verify your email address.": "Silakan klik tombol di bawah untuk memverifikasi alamat email anda.",
+    "If you did not create an account, no further action is required.": "Jika Anda tidak membuat akun, Anda tidak perlu melakukan apapun."
 }

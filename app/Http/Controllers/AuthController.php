@@ -109,4 +109,38 @@ class AuthController
 
         return Response::redirectTo('/');
     }
+
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function verifyNotification()
+    {
+        return Response::view('auth.verify-notification');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function resendVerifyNotification(Request $request)
+    {
+        $request->validate([
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'exists:users,email',
+            ],
+        ]);
+
+        /** @var User */
+        $user = User::query()
+            ->where('email', $request->get('email'))
+            ->firstOrFail();
+
+        $user->sendEmailVerificationNotification();
+
+        return Response::redirectTo('/auth/verify-notification')
+            ->with('status', __('Success resend verify notification'));
+    }
 }

@@ -152,4 +152,33 @@ class AuthFeatureTest extends TestCase
         $this->assertAuthenticatedAs($user);
         $this->assertTrue($user->hasVerifiedEmail());
     }
+
+    /**
+     * @test
+     */
+    public function shouldShowVerifyAccountNotificationPage(): void
+    {
+        $response = $this->get('/auth/verify-notification');
+
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldResendVerifyAccountNotification(): void
+    {
+        Notification::fake();
+
+        /** @var User */
+        $user = User::factory()
+            ->unverified()
+            ->create();
+
+        $this->post('/auth/verify-notification', [
+            'email' => $user->email,
+        ]);
+
+        Notification::assertSentTo($user, VerifyEmail::class);
+    }
 }

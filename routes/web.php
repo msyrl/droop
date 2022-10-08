@@ -21,6 +21,8 @@ Route::view('/auth/register', 'auth.register')->middleware('guest');
 Route::post('/auth/register', [\App\Http\Controllers\AuthController::class, 'register'])->middleware('guest');
 
 Route::get('/auth/verify', [\App\Http\Controllers\AuthController::class, 'verify'])->middleware('guest');
+Route::get('/auth/verify-notification', [\App\Http\Controllers\AuthController::class, 'verifyNotification'])->middleware('guest');
+Route::post('/auth/verify-notification', [\App\Http\Controllers\AuthController::class, 'resendVerifyNotification'])->middleware('guest');
 
 Route::get('forgot-password', [\App\Http\Controllers\PasswordResetLinkController::class, 'create'])->name('password.request')->middleware('guest');
 Route::post('forgot-password', [\App\Http\Controllers\PasswordResetLinkController::class, 'store'])->name('password.email')->middleware('guest');
