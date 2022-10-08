@@ -7,6 +7,7 @@ use App\Http\Requests\AuthSigninRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 
@@ -20,13 +21,32 @@ class AuthController
      */
     public function signin(AuthSigninRequest $authSigninRequest)
     {
-        $credential = $authSigninRequest->only(['email', 'password']);
+        /** @var User */
+        $user = User::query()
+            ->where('email', $authSigninRequest->get('email'))
+            ->first();
 
-        if (!Auth::attempt($credential, $authSigninRequest->get('remember'))) {
+        if (!$user) {
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
         }
+
+        if (!Hash::check($authSigninRequest->get('password'), $user->password)) {
+            throw ValidationException::withMessages([
+                'password' => __('auth.password'),
+            ]);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            throw ValidationException::withMessages([
+                'email' => __('auth.unverified'),
+            ]);
+        }
+
+        $authSigninRequest->session()->regenerate();
+
+        Auth::login($user, $authSigninRequest->get('remember'));
 
         return Response::redirectTo('/');
     }
@@ -55,8 +75,7 @@ class AuthController
             $authRegisterRequest->validated()
         );
 
-        Auth::login($user);
-
-        return Response::redirectTo('/');
+        return Response::redirectTo('/')
+            ->with('success', __('Successfully registered, please check your email for verification.'));
     }
 }

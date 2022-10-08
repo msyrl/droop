@@ -11,22 +11,9 @@ class AuthFeatureTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @var User
-     */
-    protected $user;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create();
-    }
-
-    /**
      * @test
-     * @return void
      */
-    public function shouldShowSigninPage()
+    public function shouldShowSigninPage(): void
     {
         $response = $this->get('/auth/signin');
 
@@ -35,23 +22,24 @@ class AuthFeatureTest extends TestCase
 
     /**
      * @test
-     * @return boolean
      */
-    public function shouldSigninUsingValidCredential()
+    public function shouldSigninUsingValidCredential(): void
     {
+        /** @var User */
+        $user = User::factory()->create();
+
         $this->post('/auth/signin', [
-            'email' => $this->user->email,
+            'email' => $user->email,
             'password' => 'secret',
         ]);
 
-        $this->assertAuthenticatedAs($this->user);
+        $this->assertAuthenticatedAs($user);
     }
 
     /**
      * @test
-     * @return void
      */
-    public function shouldFailedToSigninUsingInvalidCredential()
+    public function shouldFailedToSigninUsingInvalidCredential(): void
     {
         $response = $this->post('/auth/signin', [
             'email' => 'johndoe@example.com',
@@ -63,12 +51,13 @@ class AuthFeatureTest extends TestCase
 
     /**
      * @test
-     * @return void
      */
-    public function shouldSuccessLogout()
+    public function shouldSuccessLogout(): void
     {
-        $this->actingAs($this->user)
-            ->post('/auth/signout');
+        /** @var User */
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post('/auth/signout');
 
         $this->assertGuest();
     }
@@ -86,7 +75,7 @@ class AuthFeatureTest extends TestCase
     /**
      * @test
      */
-    public function shouldSuccessRegisterAndRedirectToHomePage(): void
+    public function shouldSuccessRegisterAndRedirectToRootPage(): void
     {
         $response = $this->post('/auth/register', [
             'name' => 'John Doe',
@@ -96,9 +85,7 @@ class AuthFeatureTest extends TestCase
         ]);
 
         $response->assertSessionDoesntHaveErrors();
-        $response->assertRedirect();
-
-        $this->isAuthenticated();
+        $response->assertRedirect('/');
     }
 
     /**
@@ -115,6 +102,24 @@ class AuthFeatureTest extends TestCase
             'email' => 'johndoe@example.com',
             'password' => 'secret',
             'password_confirmation' => 'secret',
+        ]);
+
+        $response->assertSessionHasErrors(['email']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldFailedToSigninWhenEmailUnverified(): void
+    {
+        /** @var User */
+        $user = User::factory()
+            ->unverified()
+            ->create();
+
+        $response = $this->post('/auth/signin', [
+            'email' => $user->email,
+            'password' => 'secret',
         ]);
 
         $response->assertSessionHasErrors(['email']);
