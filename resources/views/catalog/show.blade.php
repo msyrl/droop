@@ -42,7 +42,7 @@
                                         alt="{{ $product->name }}"
                                         class="product-image"
                                     />
-                                    <div class="product-image-thumbs">
+                                    <div class="product-image-thumbs flex-wrap">
                                         <div class="product-image-thumb active">
                                             <img
                                                 src="{{ $product->featured_image_url }}"
