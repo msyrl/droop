@@ -119,6 +119,7 @@
                                         <th>{{ __('Email') }}</th>
                                         <th>{{ __('Name') }}</th>
                                         <th>{{ __('Date created') }}</th>
+                                        <th>{{ __('Date verified') }}</th>
                                         <th width="10"></th>
                                     </tr>
                                 </thead>
@@ -128,6 +129,7 @@
                                             <td class="align-middle">{{ $user->email }}</td>
                                             <td class="align-middle">{{ $user->name }}</td>
                                             <td class="align-middle">{{ $user->created_at }}</td>
+                                            <td class="align-middle">{{ $user->email_verified_at }}</td>
                                             <td class="align-middle">
                                                 <div class="btn-group btn-group-sm">
                                                     @can(\App\Enums\PermissionEnum::manage_users()->value)
@@ -151,7 +153,7 @@
                                     @empty
                                         <tr>
                                             <td
-                                                colspan="4"
+                                                colspan="5"
                                                 class="text-center"
                                             >{{ __('Data not found') }}</td>
                                         </tr>
