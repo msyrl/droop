@@ -28,10 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::createUrlUsing(function ($notifiable) {
-            return url('/auth/verify', [
-                'email' => $notifiable->getEmailForVerification(),
-                'hash' => $notifiable->generateVerificationHash(),
-            ]);
+            return url("/auth/verify?email={$notifiable->getEmailForVerification()}&hash={$notifiable->generateVerificationHash()}");
         });
     }
 }
