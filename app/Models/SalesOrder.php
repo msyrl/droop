@@ -97,7 +97,7 @@ class SalesOrder extends Model implements HasMedia
 
     public function getDueDateAttribute(): Carbon
     {
-        return $this->created_at->addDays(7);
+        return $this->created_at->addHours(2);
     }
 
     public function addAttachment(UploadedFile $uploadedFile): void
