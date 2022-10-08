@@ -56,6 +56,7 @@ Route::group([
     Route::get('/products/{product}', [\App\Http\Controllers\ProductController::class, 'show'])->can(\App\Enums\PermissionEnum::manage_products());
     Route::put('/products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->can(\App\Enums\PermissionEnum::manage_products());
     Route::delete('/products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->can(\App\Enums\PermissionEnum::manage_products());
+    Route::post('/products/import', [\App\Http\Controllers\ProductImportController::class, 'store'])->can(\App\Enums\PermissionEnum::manage_products());
 
     Route::get('/sales-orders', [\App\Http\Controllers\SalesOrderController::class, 'index'])->can(\App\Enums\PermissionEnum::view_sales_orders());
     Route::get('/sales-orders/{salesOrder}', [\App\Http\Controllers\SalesOrderController::class, 'show'])->can(\App\Enums\PermissionEnum::view_sales_orders());

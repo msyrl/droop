@@ -13,6 +13,14 @@
                     <h1 class="m-0">{{ __('Products') }}</h1>
                 </div><!-- /.col -->
                 @can(\App\Enums\PermissionEnum::manage_products()->value)
+                    <div class="col-auto ml-auto">
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-toggle="modal"
+                            data-target="#modal-import-products"
+                        >{{ __('Import') }}</button>
+                    </div>
                     <div class="col-auto">
                         <a
                             href="{{ url('/products/create') }}"
@@ -185,4 +193,65 @@
         <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+    <!-- Modal Import Products -->
+    <div
+        class="modal fade"
+        id="modal-import-products"
+        tabindex="-1"
+    >
+        <div class="modal-dialog">
+            <form
+                action="{{ url('/products/import') }}"
+                method="POST"
+                enctype="multipart/form-data"
+                novalidate
+            >
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ __('Import products') }}</h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Download a <a href="/sample/products_sample.csv">sample CSV template</a> to see an
+                            example of the format required.</p>
+                        <div class="form-group">
+                            <label for="file">
+                                <span>{{ __('File') }}</span>
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input
+                                type="file"
+                                name="file"
+                                class="form-control-file @error('file') is-invalid @enderror"
+                                accept=".csv"
+                            />
+                            @error('file')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >{{ __('Close') }}</button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >{{ __('Import') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </x-app>
