@@ -77,7 +77,7 @@
                                 </script>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <h3 c;ass="mb-3">{{ $product->name }}</h3>
-                                    <p>{!! $product->description !!}</p>
+                                    <p>{!! nl2br($product->description) !!}</p>
                                     <p class="h4 mb-3 text-bold">{{ $product->formatted_price }}</p>
                                     <form
                                         action="{{ url('/my/cart') }}"
