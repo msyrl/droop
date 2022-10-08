@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRegisterRequest;
 use App\Http\Requests\AuthSigninRequest;
+use App\Http\Requests\AuthVerifyRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -80,5 +81,32 @@ class AuthController
 
         return Response::redirectTo('/')
             ->with('success', __('Successfully registered, please check your email for verification.'));
+    }
+
+    /**
+     * @param AuthVerifyRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function verify(AuthVerifyRequest $request)
+    {
+        /** @var User */
+        $user = User::query()
+            ->where('email', $request->get('email'))
+            ->firstOrFail();
+
+        abort_unless(
+            $user->checkVerificationHash(
+                $request->get('hash')
+            ),
+            403
+        );
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        Auth::login($user);
+
+        return Response::redirectTo('/');
     }
 }

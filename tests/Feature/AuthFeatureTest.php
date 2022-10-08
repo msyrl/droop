@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class AuthFeatureTest extends TestCase
@@ -132,5 +134,22 @@ class AuthFeatureTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['email']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSuccessVerifyAccount(): void
+    {
+        /** @var User */
+        $user = User::factory()
+            ->unverified()
+            ->create();
+
+        $this->get("/auth/verify?email={$user->email}&hash={$user->generateVerificationHash()}");
+
+        $user->refresh();
+        $this->assertAuthenticatedAs($user);
+        $this->assertTrue($user->hasVerifiedEmail());
     }
 }
