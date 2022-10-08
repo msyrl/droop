@@ -60,7 +60,6 @@
 
         .invoice-box table tr.item td {
             border-bottom: 1px solid #eee;
-            white-space: nowrap;
         }
 
         .invoice-box table tr.item.last td {
