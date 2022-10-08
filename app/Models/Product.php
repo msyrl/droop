@@ -59,9 +59,19 @@ class Product extends Model implements HasMedia
         $this->addMedia($uploadedFile)->toMediaCollection('featured_image');
     }
 
+    public function setFeaturedImageFromUrl(string $url): void
+    {
+        $this->addMediaFromUrl($url)->toMediaCollection('featured_image');
+    }
+
     public function setImage(UploadedFile $uploadedFile): void
     {
         $this->addMedia($uploadedFile)->toMediaCollection('image');
+    }
+
+    public function setImageFromUrl(string $url): void
+    {
+        $this->addMediaFromUrl($url)->toMediaCollection('image');
     }
 
     public function clearFeaturedImage(): void
